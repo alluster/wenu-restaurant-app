@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Card, Container, Form } from 'react-bootstrap';
+import { Card, Container, Form, Button } from 'react-bootstrap';
 import axios from 'axios'
 
 const TransportList = () => {
@@ -30,14 +30,14 @@ const TransportList = () => {
 		})
 		.then(
 			alert("Tilaus poistettu"),
-			GetOrders()
+		
 		)
 		.catch(function (error) {
 			console.log(error);
 		})
 		.finally(function () {
+			GetOrders()
 			setIsLoading(false)
-	
 		});
 	}
 	const OrderRecieved= async (id) => {
@@ -63,11 +63,10 @@ const TransportList = () => {
 	}, [])
 	return (
 		<Container>
-			{console.log(items)}
 				{
 					!loading ? 
 					
-						items.map((item, i) => {
+						items.slice(0).reverse().map((item, i) => {
 							return(
 								<Card key={i} style={{ width: '18rem' }}>
 								<Card.Body>
@@ -108,8 +107,7 @@ const TransportList = () => {
 								  <Card.Text>
 									  Ordered meal address: {item.order_address}
 								  </Card.Text>
-								  <Card.Link onClick={() => DeleteOrder(item.id)}>Delete item</Card.Link>
-								  <Card.Link href="#">Another Link</Card.Link>
+								  <Button onClick={() => DeleteOrder(item.id)}>Tuote on kuljetettu asiakkaalle</Button>
 								</Card.Body>
 							  </Card>
 			

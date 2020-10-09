@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import { Button, Container, Form } from 'react-bootstrap';
 import axios from 'axios';
+import { useHistory } from "react-router-dom";
 
-const AddItem = () => {
+const AddItem = (props) => {
+	let history = useHistory();
 
 	const [name, setName] = useState("")
 	const [description, setDescription] = useState("")
@@ -21,7 +23,7 @@ const AddItem = () => {
 				}	
 			})
 		
-			.then(alert("Tuote lisätty"))
+			.then(alert("Tuote lisätty"), history.push.push('/itemslist'))
 		} 
 		catch (error) {
 			console.error(error.message)

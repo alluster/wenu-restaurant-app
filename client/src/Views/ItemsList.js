@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { Card, Container } from 'react-bootstrap';
+import { Card, Container, Button } from 'react-bootstrap';
 import axios from 'axios'
+import { useHistory } from "react-router-dom";
 
-const ItemsList = () => {
+const ItemsList = (props) => {
+	let history = useHistory();
 	const [items, setItems] = useState([])
 	const [loading, setIsLoading] = useState(false)
 	const GetItems = async () => {
@@ -46,7 +48,7 @@ const ItemsList = () => {
 	}, [])
 	return (
 		<Container>
-			{console.log(items)}
+			<Button onClick={() => history.push('/additem')}>Lisää uusi tuote</Button>
 				{
 					!loading ? 
 					
@@ -62,8 +64,8 @@ const ItemsList = () => {
 								  <Card.Text>
 									{item.price}
 								  </Card.Text>
-								  <Card.Link onClick={() => DeleteItem(item.id)}>Delete item</Card.Link>
-								  <Card.Link href="#">Another Link</Card.Link>
+								  <Button variant="warning" onClick={() => DeleteItem(item.id)}>Poista listalta</Button>
+								 
 								</Card.Body>
 							  </Card>
 			

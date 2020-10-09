@@ -22,14 +22,12 @@ function App() {
 				<Link to="/">Home</Link>
 				</li>
 				<li>
-				<Link to="/itemslist">Menu</Link>
+				<Link to="/itemslist">Ruokalista</Link>
 				</li>
 				<li>
-				<Link to="/transportlist">Items in transport</Link>
+				<Link to="/transportlist">Tuotteet kuljetuksessa</Link>
 				</li>
-				<li>
-				<Link to="/additem">Add new Menu Item</Link>
-				</li>
+			
 			</ul>
 			</nav>
 		  </Container>
