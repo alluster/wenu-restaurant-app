@@ -10,31 +10,21 @@ import ItemsList from './Views/ItemsList';
 import TransportList from './Views/TransportList';
 import Home from './Views/Home';
 import AddItem from './Views/AddItem';
+import Navigation from './Components/Navigation';
 
 function App() {
   return (
-    <Router>
-      <div>
-		  <Container>
-			<nav>
-			<ul>
-				<li>
-				<Link to="/">Home</Link>
-				</li>
-				<li>
-				<Link to="/itemslist">Ruokalista</Link>
-				</li>
-				<li>
-				<Link to="/transportlist">Tuotteet kuljetuksessa</Link>
-				</li>
-			
-			</ul>
-			</nav>
+    <Router>	
+	  <div    
+		style={{
+			backgroundColor: '#F8F9FA',
+			minHeight: "100vh"
+      }}>
+		  <Container fluid>
+				<Navigation />
 		  </Container>
        
 
-        {/* A <Switch> looks through its children <Route>s and
-            renders the first one that matches the current URL. */}
         <Switch>
           <Route path="/itemslist">
             <ItemsList />

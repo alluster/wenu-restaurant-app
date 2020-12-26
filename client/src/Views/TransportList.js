@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Card, Container, Form, Button } from 'react-bootstrap';
+import { Card, Container, Form, Button, Accordion, Col, InputGroup } from 'react-bootstrap';
 import axios from 'axios'
 
 const TransportList = () => {
@@ -63,65 +63,118 @@ const TransportList = () => {
 	}, [])
 	return (
 		<Container>
+								<Accordion  >
+
 				{
 					!loading ? 
-					
+
 						items.slice(0).reverse().map((item, i) => {
 							return(
-								<Card key={i} style={{ width: '18rem' }}>
-								<Card.Body>
-								  <Card.Title>{item.item_name}</Card.Title>
-								  <Card.Subtitle className="mb-2 text-muted">Id: {item.id}</Card.Subtitle>
+								
+								<Card key={i}>
+								<Card.Header>
+								  <Accordion.Toggle as={Button} variant="link" eventKey={`${i}`}>
+									{item.item_name}
+								  </Accordion.Toggle >
+								</Card.Header>
+								<Accordion.Collapse eventKey={`${i}`} >
+								  <Card.Body>
+
 								  <Form.Check
 										type="checkbox"
 										id={item.id + 'recieved'}
 										label="Order recieved"
 										checked={item.recieved}
 										onChange={() => OrderRecieved(item.id)}
-
 									/>
-								 								  <Form.Check
+								 	<Form.Check
 										type="checkbox"
 										id="prepared"
 										label="Order prepared"
 										custom
 									/>
-																	 								  <Form.Check
+								   <Form.Check
 										type="checkbox"
 										id="paid"
 										label="Order paid"
 										custom
 									/>
-																										 								  <Form.Check
+									<Form.Check
 										type="checkbox"
 										id="delivered"
 										label="Order delivered"
 										custom
 									/>
-								  <Card.Text>
-									 	Ordered meal name:  {item.item_name}
-								  </Card.Text>
-								  <Card.Text>
-									  Ordered meal id: {item.item_id}
-								  </Card.Text>
-								  <Card.Text>
-									  Ordered meal address: {item.order_address}
-								  </Card.Text>
-								  <Button onClick={() => DeleteOrder(item.id)}>Tuote on kuljetettu asiakkaalle</Button>
-								</Card.Body>
+							 	<Form>
+									<Form.Row>
+										<Form.Group  as={Col} md="6" controlId="validationCustom01">
+											<Form.Label>Tilauksen saapumisaika</Form.Label>
+											<Form.Control
+												required
+												disabled
+												type="text"
+												placeholder="Tilauksen saapumisaika"
+												defaultValue=""
+											/>
+										</Form.Group>
+										<Form.Group as={Col} md="6" controlId="validationCustom02">
+											<Form.Label>Tilaus valmis kuljetettavaksi</Form.Label>
+											<Form.Control
+												
+												type="text"
+												placeholder="Klo"
+												defaultValue=""
+											/>
+										</Form.Group>
+									
+									</Form.Row>
+									<Form.Row>
+										<Form.Group as={Col} md="6" controlId="validationCustom03">
+											<Form.Label>Tilaus perillä noin</Form.Label>
+											<Form.Control type="text" placeholder="Klo" required />
+											<Form.Control.Feedback type="invalid">
+												Anna toimitusaika
+											</Form.Control.Feedback>
+										</Form.Group>
+										<Form.Group as={Col} md="3" >
+											<Form.Label>Katuosoite</Form.Label>
+											<Form.Control type="text" disabled placeholder="Katuosoite" required defaultValue={item.order_address} />
+										</Form.Group>
+										<Form.Group as={Col} md="3" >
+											<Form.Label>Kaupunki</Form.Label>
+											<Form.Control type="text" disabled placeholder="Kaupunki" required />
+										</Form.Group>
+										<Form.Group as={Col} md="3" >
+											<Form.Label>Postinumero</Form.Label>
+											<Form.Control type="text" disabled placeholder="Postinumero" required />
+										</Form.Group>
+										<Form.Group as={Col} md="12" >
+											<Form.Label>Lisätiedot kuljettajalle</Form.Label>
+											<Form.Control type="textarea" disabled placeholder="Lisätiedot kuljettajalle" required />
+										</Form.Group>
+									</Form.Row>
+									
+									</Form>
+								
+							 	
+							  <Button onClick={() => DeleteOrder(item.id)}>Tuote on kuljetettu asiakkaalle</Button>
+								  </Card.Body>
+								</Accordion.Collapse>
 							  </Card>
+
+						
 			
 			
 							)
 						})
-					
 					
 					:
 					<h1>Loading </h1>
 				}
 			
 			
-			
+			</Accordion>
+
 		</Container>
   );
 }
