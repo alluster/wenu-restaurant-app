@@ -1,19 +1,20 @@
-import React from 'react';
-import { Table, Container, Jumbotron } from 'react-bootstrap';
+import React, {useEffect, useState } from 'react';
+import styled from 'styled-components';
+import { Table, Container, Jumbotron, Alert } from 'react-bootstrap';
+import axios from 'axios';
+import Hero from '../Components/Hero'
 
 
-const ItemsList = () => {
+const Home = () => {
+
 	return (
-		<Container>
-		<Jumbotron> 
-			<h1>Restaurant order management</h1>
-			<h3>Manage your restaurants products in the "Ménu" section. In "Transportation" view you can manage orders made by customers.</h3>
-			<h1>Add a new meal to your menu from "Add New Menu Item</h1>
-			<h2>Enjoy!</h2>
-		</Jumbotron>
-		</Container>
+		<div>
+			
+			<Hero />
+		</div>
+		
   );
 }
 
 
-export default ItemsList;
+export default Home;

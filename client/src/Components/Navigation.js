@@ -18,7 +18,7 @@ const Navigation = () => {
 				<Nav.Link className="link" href="/transportlist">Tilausseuranta</Nav.Link>
 				<Nav.Link href="/itemslist">Ruokalista</Nav.Link>
 				<Nav.Link href="/">Ravintolan tiedot</Nav.Link>
-				<Nav.Link href="/">Kirjaudu ulos</Nav.Link>
+				<Nav.Link href="/">Kirjaudu</Nav.Link>
 
 					</Nav>
 				</Navbar.Collapse>

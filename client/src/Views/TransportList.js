@@ -5,23 +5,27 @@ import axios from 'axios'
 const TransportList = () => {
 	const [items, setItems] = useState([])
 	const [loading, setIsLoading] = useState(false)
-	const GetOrders= async () => {
+	const GetOrders = async () => {
 		setIsLoading(true)
-		await axios.get('/api/getorders', {
-		})
-		.then(function (response) {
-			let data = response.data
-			setItems(data)
-			setIsLoading(false)
-	
-		})
-		.catch(function (error) {
-			console.log(error);
-		})
-		.finally(function () {
-			setIsLoading(false)
-	
-		});
+
+		await setInterval(() => {
+			 axios.get('/api/getorders', {
+			})
+			.then(function (response) {
+				let data = response.data
+				setItems(data)
+				setIsLoading(false)
+		
+			})
+			.catch(function (error) {
+				console.log(error);
+			})
+			.finally(function () {
+				setIsLoading(false)
+		
+			});
+		  }, 3000);
+
 	}
 	const DeleteOrder = async ( id ) => {
 		setIsLoading(true)
