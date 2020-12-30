@@ -9,13 +9,15 @@ const Content = styled.div `
 	x-index: 1;
 	min-height: calc(100vh);
 	width: 100%;
-	background-image: url('bg.svg');
+	// background-image: url('bg.svg');
 	background-repeat: no-repeat;
 	margin-bottom: 50px;
 	background-size: cover;
 	overflow: hidden;
+	background-image: linear-gradient(to right, #6a11cb 0%, #2575fc 100%);
+	clip-path: polygon(0 0, 100% 0, 100% 100%, 0 80%);
 
-`;
+	`;
 
 const Image = styled.img `
 	float: right;
