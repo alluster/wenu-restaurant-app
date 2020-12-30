@@ -7,11 +7,11 @@ import Container from './Container'
 const Content = styled.div `
 	position: relative;
 	x-index: 1;
-	min-height: calc(100vh);
 	width: 100%;
+	height: calc(100% + 100px);
 	// background-image: url('bg.svg');
 	background-repeat: no-repeat;
-	margin-bottom: 50px;
+	margin-bottom: 20px;
 	background-size: cover;
 	overflow: hidden;
 	background-image: linear-gradient(to right, #6a11cb 0%, #2575fc 100%);
@@ -19,17 +19,6 @@ const Content = styled.div `
 
 	`;
 
-const Image = styled.img `
-	float: right;
-	max-width: 100%;
-	min-height: 200px;
-	// transform: translate(0%, 30%);
-
-
-`;
-const ImageContainer = styled.div`
-margin-top: 50px;
-`
 
 
 const Text = styled.div`
@@ -37,8 +26,11 @@ const Text = styled.div`
 	min-height: 200px;
 	max-width: 100%;
 	margin-top: 100px;
+	margin-bottom: 150px;
+
 	@media (max-width: 768px) {
-		margin-top: 50px;
+		margin-top: 20px;
+		margin-bottom: 150px;
 
 	}
 `
@@ -70,12 +62,7 @@ const Hero = () => {
 						<h3>Wenu ohjelmiston avulla saat ravintolasi kotisivuille oman, helposti päivitettävän ruokalistan, jonka avulla asiakkaasi voivat tilata ruokaa kotiinkuljetuksella kotiin suoraan verkkosivuiltanne.</h3>
 						</Text>		
 				</Container>
-				<Container>
-					<ImageContainer>
-						<Image src="/app.png" />
-
-					</ImageContainer>
-				</Container>
+			
 				
 		</Content>
   );
