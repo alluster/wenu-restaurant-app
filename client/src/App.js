@@ -13,6 +13,7 @@ import Home from './Views/Home';
 import AddItem from './Views/AddItem';
 import Navigation from './Components/Navigation';
 import PaymentMethods from './Views/PaymentMethods';
+import Footer from './Components/Footer';
 
 function App() {
 	const [ authenticated, setAuthenticated ] = useState(false)
@@ -26,10 +27,11 @@ function App() {
 	  <div    
 		style={{
 			backgroundColor: '#F8F9FA',
-			minHeight: "100vh"
+			minHeight: "calc(100vh + 300px)"
       }}>
 		  <Container fluid>
 				<Navigation />
+				
 		  </Container>
        
 
@@ -40,6 +42,7 @@ function App() {
           <Route path="/paymentmethods" component={ authenticated ? PaymentMethods : RedirectToHome} />
           <Route exact path="/" component={Home} />
         </Switch>
+		<Footer />
       </div>
     </Router>
   );
