@@ -8,8 +8,7 @@ const sslRedirect = require('heroku-ssl-redirect');
 var twilio = require('twilio');
 const bodyParser = require('body-parser')
 const path = require('path')
-const crypto = require('crypto');
-const fetch = require('node-fetch');
+
 
 app.use(sslRedirect());
 
@@ -191,81 +190,6 @@ app.get('/api/orderfalied/:id', (req, res) => {
 
 })
 
-
-
-// OP Checkout test
-
-
-
-app.get('/api/getpaymentmethods', (req, res) => {
-	const ACCOUNT = '375917';
-	const SECRET = 'SAIPPUAKAUPPIAS';
-	
-	const calculateHmac = (secret, params, body) => {
-		const hmacPayload =
-		Object.keys(params)
-			.sort()
-			.map((key) => [ key, params[key] ].join(':'))
-			.concat(body ? JSON.stringify(body) : '')
-			.join("\n");
-	
-		return crypto
-		.createHmac('sha256', secret)
-		.update(hmacPayload)
-		.digest('hex');
-	};
-
-	const headers = {
-		'checkout-account': ACCOUNT,
-		'checkout-algorithm': 'sha256',
-		'checkout-method': 'GET',
-		'checkout-nonce': '564635208570151',
-		'checkout-timestamp': '2018-07-06T10:01:31.904Z'
-	};
-	
-	const body = {
-		stamp: 'unique-identifier-for-merchant',
-		reference: '3759170',
-		amount: 1525,
-		currency: 'EUR',
-		language:'FI',
-		items: [
-			{
-				unitPrice: 1525,
-				units: 1,
-				vatPercentage: 24,
-				productCode: '#1234',
-				deliveryDate: '2018-09-01'
-			}
-		],
-		customer: {
-			email: 'test.customer@example.com'
-		},
-		redirectUrls: {
-			success: 'https://ecom.example.com/cart/success',
-			cancel: 'https://ecom.example.com/cart/cancel'
-		}
-	};
-	
-	// Expected HMAC: 3708f6497ae7cc55a2e6009fc90aa10c3ad0ef125260ee91b19168750f6d74f6
-	// res.send(calculateHmac(SECRET, headers))
-	const getpaymentmethods = () => {
-		const headers = {
-			'checkout-account': '375917',
-			'checkout-algorithm': 'sha256',
-			'checkout-method': 'GET',
-			'checkout-nonce': '564635208570151',
-			'checkout-timestamp': '2018-07-06T10:01:31.904Z'
-		};
-		fetch('https://api.checkout.fi/merchants/payment-providers?groups=mobile,creditcard', {
-			method: 'get',
-			headers: headers
-			.then(res => res.json())
-			.then(console.log('json'))
-		})
-	}
-		getpaymentmethods()
-});
 app.get('*', (req,res) =>{
     res.sendFile(path.join(__dirname+'/client/build/index.html'));
 });
