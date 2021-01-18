@@ -14,8 +14,6 @@ import AddItem from './Views/AddItem';
 import Navigation from './Components/Navigation';
 import PaymentMethods from './Views/PaymentMethods';
 import Footer from './Components/Footer';
-import SignUp from './Views/SignUp';
-import SignIn from './Views/SignIn';
 import { useAuth0 , withAuthenticationRequired} from "@auth0/auth0-react";
 
 function App() {
@@ -50,9 +48,6 @@ function App() {
           <Route path="/transportlist" component={ authenticated ? TransportList : RedirectToHome} />
           <Route path="/additem" component={ authenticated ? AddItem : RedirectToHome} />
           <Route path="/paymentmethods" component={ authenticated ? PaymentMethods : RedirectToHome} />
-		  <Route path="/signin" component={SignIn} />
-		  <Route path="/signup" component={SignUp} />
-
           <Route exact path="/" component={Home} />
         </Switch>
 		<Footer />
