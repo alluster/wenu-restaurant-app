@@ -7,7 +7,7 @@ import {
 
 const Navigation = () => {
 	const { loginWithRedirect, isAuthenticated, logout, user } = useAuth0();
-
+	console.log(user);
 	return (
 		<Navbar collapseOnSelect expand="lg" bg="light" variant="light">
 			<Navbar.Brand><Link to="/"><img src="logo-dark.svg" height="50px"/></Link></Navbar.Brand>

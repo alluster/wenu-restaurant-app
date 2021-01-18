@@ -47,7 +47,7 @@ const ItemsList = (props) => {
 		
 	}, [])
 	return (
-		<Container>
+		<Container style={{minHeight: "100vh"}}>
 			<Button onClick={() => history.push('/additem')}>Lisää uusi tuote</Button>
 				{
 					!loading ? 
