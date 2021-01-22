@@ -14,6 +14,7 @@ import AddItem from './Views/AddItem';
 import Navigation from './Components/Navigation';
 import Footer from './Components/Footer';
 import { useAuth0 , withAuthenticationRequired} from "@auth0/auth0-react";
+import Restaurant from './Views/Restaurant';
 
 function App() {
 	const { isAuthenticated } = useAuth0();
@@ -43,6 +44,8 @@ function App() {
           <Route path="/itemslist" component={ authenticated ? ItemsList : RedirectToHome} />
           <Route path="/transportlist" component={ authenticated ? TransportList : RedirectToHome} />
           <Route path="/additem" component={ authenticated ? AddItem : RedirectToHome} />
+		  <Route path="/restaurant" component={ authenticated ? Restaurant : RedirectToHome} />
+
           <Route exact path="/" component={Home} />
         </Switch>
 		<Footer />
