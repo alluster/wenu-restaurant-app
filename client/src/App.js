@@ -12,7 +12,6 @@ import TransportList from './Views/TransportList';
 import Home from './Views/Home';
 import AddItem from './Views/AddItem';
 import Navigation from './Components/Navigation';
-import PaymentMethods from './Views/PaymentMethods';
 import Footer from './Components/Footer';
 import { useAuth0 , withAuthenticationRequired} from "@auth0/auth0-react";
 
@@ -26,12 +25,11 @@ function App() {
 	}
 		
 	useEffect(() => {
-		// setAuthenticated(isAuthenticated)
+		// setAuthenticated(user)
 	},[])
   return (
 	
     <Router>	
-		{console.log(withAuthenticationRequired)}
 	  <div    
 		style={{
 			backgroundColor: '#F8F9FA',
@@ -39,7 +37,6 @@ function App() {
       }}>
 		  <Container fluid>
 				<Navigation />
-				
 		  </Container>
        
 
@@ -47,7 +44,6 @@ function App() {
           <Route path="/itemslist" component={ authenticated ? ItemsList : RedirectToHome} />
           <Route path="/transportlist" component={ authenticated ? TransportList : RedirectToHome} />
           <Route path="/additem" component={ authenticated ? AddItem : RedirectToHome} />
-          <Route path="/paymentmethods" component={ authenticated ? PaymentMethods : RedirectToHome} />
           <Route exact path="/" component={Home} />
         </Switch>
 		<Footer />

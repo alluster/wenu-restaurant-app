@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Card, Container, Form, Button, Accordion, Col, InputGroup } from 'react-bootstrap';
 import axios from 'axios'
+import { withAuthenticationRequired } from "@auth0/auth0-react";
 
 const TransportList = () => {
 	const [items, setItems] = useState([])
@@ -184,4 +185,4 @@ const TransportList = () => {
 }
 
 
-export default TransportList;
+export default withAuthenticationRequired(TransportList);

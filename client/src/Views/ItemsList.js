@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { Card, Container, Button } from 'react-bootstrap';
 import axios from 'axios'
 import { useHistory } from "react-router-dom";
+import Authenticate from '../HOC/authenticate';
+import { withAuthenticationRequired } from "@auth0/auth0-react";
 
 const ItemsList = (props) => {
 	let history = useHistory();
@@ -85,4 +87,4 @@ const ItemsList = (props) => {
 }
 
 
-export default ItemsList;
+export default withAuthenticationRequired(ItemsList);

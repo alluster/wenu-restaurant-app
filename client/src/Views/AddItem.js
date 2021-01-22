@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Button, Container, Form } from 'react-bootstrap';
 import axios from 'axios';
 import { useHistory } from "react-router-dom";
+import { withAuthenticationRequired } from "@auth0/auth0-react";
 
 const AddItem = (props) => {
 	let history = useHistory();
@@ -65,4 +66,4 @@ const AddItem = (props) => {
 }
 
 
-export default AddItem;
+export default withAuthenticationRequired(AddItem);
