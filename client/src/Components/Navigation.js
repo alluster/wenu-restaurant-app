@@ -1,13 +1,13 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Navbar, Nav, Container } from 'react-bootstrap';
 import {
 	Link
   } from "react-router-dom";
   import { useAuth0 } from "@auth0/auth0-react";
 
-const Navigation = () => {
-	const { loginWithRedirect, isAuthenticated, logout, user } = useAuth0();
-	console.log(user);
+const Navigation = (props) => {
+	const { loginWithRedirect, logout, user } = useAuth0();
+
 	return (
 		<Navbar collapseOnSelect expand="lg" bg="light" variant="light">
 			<Navbar.Brand><Link to="/"><img src="logo-dark.svg" height="50px"/></Link></Navbar.Brand>
@@ -19,7 +19,7 @@ const Navigation = () => {
 				<Nav className="mr-auto">
 				
 				{
-					isAuthenticated ?
+					props.auth ?
 					<Navbar.Collapse id="responsive-navbar-nav">
 
 					<Nav className="mr-auto">

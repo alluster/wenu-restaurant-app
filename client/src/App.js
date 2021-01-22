@@ -25,7 +25,6 @@ function App() {
 	}
 		
 	useEffect(() => {
-		// setAuthenticated(user)
 	},[])
   return (
 	
@@ -36,7 +35,7 @@ function App() {
 			minHeight: "calc(100vh + 300px)"
       }}>
 		  <Container fluid>
-				<Navigation />
+				<Navigation auth={isAuthenticated}/>
 		  </Container>
        
 
