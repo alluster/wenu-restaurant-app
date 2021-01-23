@@ -190,6 +190,21 @@ app.get('/api/orderfalied/:id', (req, res) => {
 
 })
 
+app.get('/api/getrestaurants', (req, res) => {
+	pool.getConnection(function(err, connection) {
+
+		if (err) throw err; 
+		query = SQL`SELECT * FROM restaurants`
+		connection.query(
+			query,
+			function (error, results, fields) {
+				res.send(results)
+				connection.release();
+				if (error) throw error;
+			}
+		);
+	});
+})
 app.get('*', (req,res) =>{
     res.sendFile(path.join(__dirname+'/client/build/index.html'));
 });

@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Card, Container, Form, Button, Accordion, Col, InputGroup } from 'react-bootstrap';
-import axios from 'axios'
+import axios from 'axios';
+import Timestamp from 'react-timestamp';
+
 import { withAuthenticationRequired } from "@auth0/auth0-react";
 
 const TransportList = () => {
@@ -45,7 +47,7 @@ const TransportList = () => {
 			setIsLoading(false)
 		});
 	}
-	const OrderRecieved= async (id) => {
+	const OrderRecieved = async (id) => {
 		await axios.get(`/api/orderrecieved/${id}`, {
 		})
 		.then(function (response) {
@@ -64,7 +66,7 @@ const TransportList = () => {
 	
 	useEffect(() => {
 		GetOrders()
-		
+		console.log(items)
 	}, [])
 	return (
 		<Container style={{minHeight: "100vh"}}>
@@ -79,7 +81,8 @@ const TransportList = () => {
 								<Card key={i}>
 								<Card.Header>
 								  <Accordion.Toggle as={Button} variant="link" eventKey={`${i}`}>
-									{item.item_name}
+									{item.item_name} {item.order_paid}  
+
 								  </Accordion.Toggle >
 								</Card.Header>
 								<Accordion.Collapse eventKey={`${i}`} >
@@ -143,19 +146,23 @@ const TransportList = () => {
 										</Form.Group>
 										<Form.Group as={Col} md="3" >
 											<Form.Label>Katuosoite</Form.Label>
-											<Form.Control type="text" disabled placeholder="Katuosoite" required defaultValue={item.order_address} />
-										</Form.Group>
-										<Form.Group as={Col} md="3" >
-											<Form.Label>Kaupunki</Form.Label>
-											<Form.Control type="text" disabled placeholder="Kaupunki" required />
+											<Form.Control type="text" disabled placeholder="Katuosoite" required defaultValue={item.customer_street} />
 										</Form.Group>
 										<Form.Group as={Col} md="3" >
 											<Form.Label>Postinumero</Form.Label>
-											<Form.Control type="text" disabled placeholder="Postinumero" required />
+											<Form.Control type="text" disabled placeholder="Katuosoite" required defaultValue={item.customer_postal_code} />
+										</Form.Group>
+										<Form.Group as={Col} md="3" >
+											<Form.Label>Kaupunki</Form.Label>
+											<Form.Control type="text" disabled placeholder="Kaupunki" required defaultValue={item.customer_city}/>
+										</Form.Group>
+										<Form.Group as={Col} md="12" >
+											<Form.Label>Lisätiedot keittiölle</Form.Label>
+											<Form.Control type="textarea" disabled placeholder="Lisätiedot kuljettajalle" required defaultValue={item.comments_kitchen}/>
 										</Form.Group>
 										<Form.Group as={Col} md="12" >
 											<Form.Label>Lisätiedot kuljettajalle</Form.Label>
-											<Form.Control type="textarea" disabled placeholder="Lisätiedot kuljettajalle" required />
+											<Form.Control type="textarea" disabled placeholder="Lisätiedot kuljettajalle" required defaultValue={item.comments_transport}/>
 										</Form.Group>
 									</Form.Row>
 									
