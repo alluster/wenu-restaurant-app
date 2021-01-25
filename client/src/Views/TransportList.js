@@ -1,33 +1,52 @@
 import React, { useState, useEffect } from 'react';
-import { Card, Container, Form, Button, Accordion, Col, InputGroup } from 'react-bootstrap';
+import { Card, Container, Row, Form, FormControl, Button, Accordion, Col, InputGroup } from 'react-bootstrap';
 import axios from 'axios';
+import styled from 'styled-components';
 import Timestamp from 'react-timestamp';
-
 import { withAuthenticationRequired } from "@auth0/auth0-react";
+import OrderState from '../Components/orderState';
+import ClipLoader from "react-spinners/ClipLoader";
+
+const State = styled.div`
+  height: 60px;
+  border: 0.5px #000 solid;
+  border-radius: 4px;
+  padding-left: 10px; 
+  padding-right: 20px; 
+  width: auto;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+`
+
 
 const TransportList = () => {
 	const [items, setItems] = useState([])
 	const [loading, setIsLoading] = useState(false)
+	const [recieved, setRecieved] = useState(true);
+	const [prepared, setPrepared] = useState(true);
+	const [inDelivery, setInDelivery] = useState(true);
+	const [delivered, setDelivered] = useState(true);
+
 	const GetOrders = async () => {
 		setIsLoading(true)
-
 		await setInterval(() => {
-			 axios.get('/api/getorders', {
-			})
-			.then(function (response) {
-				let data = response.data
-				setItems(data)
-				setIsLoading(false)
-		
-			})
-			.catch(function (error) {
-				console.log(error);
-			})
-			.finally(function () {
-				setIsLoading(false)
-		
-			});
-		  }, 3000);
+			axios.get('/api/getorders', {
+				})
+				.then(function (response) {
+					let data = response.data
+					setItems(data)
+					setIsLoading(false)
+			
+				})
+				.catch(function (error) {
+					console.log(error);
+				})
+				.finally(function () {
+					setIsLoading(false)
+			
+				});
+		  	}, 3000);
 
 	}
 	const DeleteOrder = async ( id ) => {
@@ -47,26 +66,75 @@ const TransportList = () => {
 			setIsLoading(false)
 		});
 	}
-	const OrderRecieved = async (id) => {
-		await axios.get(`/api/orderrecieved/${id}`, {
+	
+	const orderRecieved = async (id) => {
+		await axios.get(`/api/orderrecieved`, {
+			params: {
+				fieldState: recieved ? 1 : 0 ,
+				orderId: id
+			}
 		})
 		.then(function (response) {
 			GetOrders()
-	
 		})
 		.catch(function (error) {
 			console.log(error);
 		})
 		.finally(function () {
-			setIsLoading(false)
 	
 		});
-	}
-		
 	
+	}
+	const orderPrepared = async (id) => {
+		await axios.get(`/api/orderprepared`, {
+			params: {
+				fieldState: prepared ? 1 : 0 ,
+				orderId: id
+			}
+		})
+		.then(function (response) {
+			GetOrders()
+		})
+		.catch(function (error) {
+			console.log(error);
+		})
+		.finally(function () {
+		});
+	}
+	const OrderInDelivery = async (id) => {
+		await axios.get(`/api/orderindelivery`, {
+			params: {
+				fieldState: inDelivery ? 1 : 0 ,
+				orderId: id
+			}
+		})
+		.then(function (response) {
+			GetOrders()
+		})
+		.catch(function (error) {
+			console.log(error);
+		})
+		.finally(function () {
+		});
+	}
+	const OrderDelivered = async (id) => {
+		await axios.get(`/api/orderdelivered`, {
+			params: {
+				fieldState: delivered ? 1 : 0 ,
+				orderId: id
+			}
+		})
+		.then(function (response) {
+			GetOrders()
+		})
+		.catch(function (error) {
+			console.log(error);
+		})
+		.finally(function () {
+		});
+	}
 	useEffect(() => {
 		GetOrders()
-		console.log(items)
 	}, [])
 	return (
 		<Container style={{minHeight: "100vh"}}>
@@ -81,38 +149,65 @@ const TransportList = () => {
 								<Card key={i}>
 								<Card.Header>
 								  <Accordion.Toggle as={Button} variant="link" eventKey={`${i}`}>
-									{item.item_name} {item.order_paid}  
+								 <Row>
+								 <Col xs="auto"> <span>{item.item_name}</span>
+								  </Col>
+
+									<Col xs="auto">
+										<Form.Label htmlFor="inlineFormInputGroup" srOnly>
+										</Form.Label>
+										<InputGroup className="mb-2">
+											<InputGroup.Prepend>
+											<InputGroup.Text>Tilaus saapunut</InputGroup.Text>
+											</InputGroup.Prepend>
+											<FormControl id="inlineFormInputGroup" placeholder={item.order_paid}
+									/>
+										</InputGroup>
+										</Col>
+								 </Row>
+								
 
 								  </Accordion.Toggle >
 								</Card.Header>
 								<Accordion.Collapse eventKey={`${i}`} >
 								  <Card.Body>
+								  <Row>			
+									<Col sm>
+									<State>
+											<Form.Check
+												type="checkbox"
+												id="recieved"							
+												label="Tilaus saapunut keittiöön"
+												custom
+												checked={item.order_recieved}
+												onChange={() => {
+													setRecieved(!recieved)
+													orderRecieved(item.order_id)
+												}
+												}
+											/>
+										</State>
 
-								  <Form.Check
-										type="checkbox"
-										id={item.id + 'recieved'}
-										label="Order recieved"
-										checked={item.recieved}
-										onChange={() => OrderRecieved(item.id)}
-									/>
-								 	<Form.Check
-										type="checkbox"
-										id="prepared"
-										label="Order prepared"
-										custom
-									/>
-								   <Form.Check
-										type="checkbox"
-										id="paid"
-										label="Order paid"
-										custom
-									/>
-									<Form.Check
-										type="checkbox"
-										id="delivered"
-										label="Order delivered"
-										custom
-									/>
+									</Col>
+									<Col sm>
+									<State>
+											<Form.Check
+												type="checkbox"
+												id="prepared"							
+												label="Tilaus valmis toimitettavaksi"
+												custom
+												checked={item.order_prepared}
+												onChange={() => {
+													setPrepared(!prepared)
+													orderPrepared(item.order_id)
+												}
+												}
+											/>
+										</State>
+
+									</Col>
+
+									</Row>
 							 	<Form>
 									<Form.Row>
 										<Form.Group  as={Col} md="6" controlId="validationCustom01">
@@ -122,7 +217,7 @@ const TransportList = () => {
 												disabled
 												type="text"
 												placeholder="Tilauksen saapumisaika"
-												defaultValue=""
+												defaultValue={item.order_paid}
 											/>
 										</Form.Group>
 										<Form.Group as={Col} md="6" controlId="validationCustom02">
@@ -136,6 +231,44 @@ const TransportList = () => {
 										</Form.Group>
 									
 									</Form.Row>
+									<h4>Kuljettaja täyttää:</h4>
+									<Row>			
+									<Col sm>
+									<State>
+											<Form.Check
+												type="checkbox"
+												id="in_delivery"							
+												label="Tilaus kuljetuksessa"
+												custom
+												checked={item.order_in_delivery}
+												onChange={() => {
+													setInDelivery(!inDelivery)
+													OrderInDelivery(item.order_id)
+												}
+												}
+											/>
+										</State>
+
+									</Col>
+									<Col sm>
+									<State>
+											<Form.Check
+												type="checkbox"
+												id="delivered"							
+												label="Tilaus toimitettu asiakkaalle"
+												custom
+												checked={item.order_delivered}
+												onChange={() => {
+													setDelivered(!delivered)
+													OrderDelivered(item.order_id)
+												}
+												}
+											/>
+										</State>
+
+									</Col>
+
+									</Row>
 									<Form.Row>
 										<Form.Group as={Col} md="6" controlId="validationCustom03">
 											<Form.Label>Tilaus perillä noin</Form.Label>
@@ -181,7 +314,11 @@ const TransportList = () => {
 						})
 					
 					:
-					<h1>Loading </h1>
+					<div style={{width: '40px', marginLeft: 'auto', marginRight: 'auto', marginTop: '100px'}}>
+					<ClipLoader loading={loading}  size={40} />
+
+					</div>
+
 				}
 			
 			

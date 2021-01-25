@@ -53,6 +53,78 @@ app.get('/api/additem', (req, res) => {
 	});
 
 })
+app.get('/api/orderrecieved', (req, res) => {
+	console.log(req);
+	var name = req.query.fieldName;
+
+	pool.getConnection(function(err, connection) {
+		if (err) throw err; 
+		query = SQL`UPDATE orders SET order_recieved=${req.query.fieldState} WHERE order_id=${req.query.orderId}`
+		connection.query(
+			query,
+			function (error, results, fields) {
+				res.send(results)
+
+			connection.release();
+			if (error) throw error;
+		});
+	});
+
+})
+app.get('/api/orderprepared', (req, res) => {
+	console.log(req);
+	var name = req.query.fieldName;
+
+	pool.getConnection(function(err, connection) {
+		if (err) throw err; 
+		query = SQL`UPDATE orders SET order_prepared=${req.query.fieldState} WHERE order_id=${req.query.orderId}`
+		connection.query(
+			query,
+			function (error, results, fields) {
+				res.send(results)
+
+			connection.release();
+			if (error) throw error;
+		});
+	});
+
+})
+app.get('/api/orderindelivery', (req, res) => {
+	console.log(req);
+	var name = req.query.fieldName;
+
+	pool.getConnection(function(err, connection) {
+		if (err) throw err; 
+		query = SQL`UPDATE orders SET order_in_delivery=${req.query.fieldState} WHERE order_id=${req.query.orderId}`
+		connection.query(
+			query,
+			function (error, results, fields) {
+				res.send(results)
+
+			connection.release();
+			if (error) throw error;
+		});
+	});
+
+})
+app.get('/api/orderdelivered', (req, res) => {
+	console.log(req);
+	var name = req.query.fieldName;
+
+	pool.getConnection(function(err, connection) {
+		if (err) throw err; 
+		query = SQL`UPDATE orders SET order_delivered=${req.query.fieldState} WHERE order_id=${req.query.orderId}`
+		connection.query(
+			query,
+			function (error, results, fields) {
+				res.send(results)
+
+			connection.release();
+			if (error) throw error;
+		});
+	});
+
+})
 app.get('/api/deleteitem/:id', (req, res) => {
 	pool.getConnection(function(err, connection) {
 		if (err) throw err; 
@@ -128,67 +200,8 @@ app.get('/api/deleteorder/:id', (req, res) => {
 	});
 
 })
-app.get('/api/orderrecieved/:id', (req, res) => {
-	pool.getConnection(function(err, connection) {
-		if (err) throw err; 
-		query = SQL`UPDATE orders SET recieved = !recieved WHERE id =${req.params.id}`
-		connection.query(
-			query,
-			function (error, results, fields) {
-				res.send(results)
-				connection.release();
-				if (error) throw error;
-			}
-		);
-	});
 
-})
 
-app.get('/api/ordertransportation/:id', (req, res) => {
-	pool.getConnection(function(err, connection) {
-		if (err) throw err; 
-		query = SQL`DELETE FROM orders WHERE id=${req.params.id}`
-		connection.query(
-			query,
-			function (error, results, fields) {
-				res.send(results)
-				connection.release();
-				if (error) throw error;
-			}
-		);
-	});
-
-})
-app.get('/api/orderpreparation/:id', (req, res) => {
-	pool.getConnection(function(err, connection) {
-		if (err) throw err; 
-		query = SQL`DELETE FROM orders WHERE id=${req.params.id}`
-		connection.query(
-			query,
-			function (error, results, fields) {
-				res.send(results)
-				connection.release();
-				if (error) throw error;
-			}
-		);
-	});
-
-})
-app.get('/api/orderfalied/:id', (req, res) => {
-	pool.getConnection(function(err, connection) {
-		if (err) throw err; 
-		query = SQL`DELETE FROM orders WHERE id=${req.params.id}`
-		connection.query(
-			query,
-			function (error, results, fields) {
-				res.send(results)
-				connection.release();
-				if (error) throw error;
-			}
-		);
-	});
-
-})
 
 app.get('/api/getrestaurants', (req, res) => {
 	pool.getConnection(function(err, connection) {
