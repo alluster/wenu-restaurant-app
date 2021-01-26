@@ -73,72 +73,72 @@ const TransportList = () => {
 		});
 	}
 	
-	const orderRecieved = async (id) => {
-		await axios.get(`/api/orderrecieved`, {
-			params: {
-				fieldState: recieved ? 1 : 0 ,
-				orderId: id
-			}
-		})
-		.then(function (response) {
-			GetOrders()
-		})
-		.catch(function (error) {
-			console.log(error);
-		})
-		.finally(function () {
+	// const orderRecieved = async (id) => {
+	// 	await axios.get(`/api/orderrecieved`, {
+	// 		params: {
+	// 			fieldState: recieved ? 1 : 0 ,
+	// 			orderId: id
+	// 		}
+	// 	})
+	// 	.then(function (response) {
+	// 		GetOrders()
+	// 	})
+	// 	.catch(function (error) {
+	// 		console.log(error);
+	// 	})
+	// 	.finally(function () {
 	
-		});
+	// 	});
 	
-	}
-	const orderPrepared = async (id) => {
-		await axios.get(`/api/orderprepared`, {
-			params: {
-				fieldState: prepared ? 1 : 0 ,
-				orderId: id
-			}
-		})
-		.then(function (response) {
-			GetOrders()
-		})
-		.catch(function (error) {
-			console.log(error);
-		})
-		.finally(function () {
-		});
-	}
-	const OrderInDelivery = async (id) => {
-		await axios.get(`/api/orderindelivery`, {
-			params: {
-				fieldState: inDelivery ? 1 : 0 ,
-				orderId: id
-			}
-		})
-		.then(function (response) {
-			GetOrders()
-		})
-		.catch(function (error) {
-			console.log(error);
-		})
-		.finally(function () {
-		});
-	}
-	const OrderDelivered = async (id) => {
-		await axios.get(`/api/orderdelivered`, {
-			params: {
-				fieldState: delivered ? 1 : 0 ,
-				orderId: id
-			}
-		})
-		.then(function (response) {
-			GetOrders()
-		})
-		.catch(function (error) {
-			console.log(error);
-		})
-		.finally(function () {
-		});
-	}
+	// }
+	// const orderPrepared = async (id) => {
+	// 	await axios.get(`/api/orderprepared`, {
+	// 		params: {
+	// 			fieldState: prepared ? 1 : 0 ,
+	// 			orderId: id
+	// 		}
+	// 	})
+	// 	.then(function (response) {
+	// 		GetOrders()
+	// 	})
+	// 	.catch(function (error) {
+	// 		console.log(error);
+	// 	})
+	// 	.finally(function () {
+	// 	});
+	// }
+	// const OrderInDelivery = async (id) => {
+	// 	await axios.get(`/api/orderindelivery`, {
+	// 		params: {
+	// 			fieldState: inDelivery ? 1 : 0 ,
+	// 			orderId: id
+	// 		}
+	// 	})
+	// 	.then(function (response) {
+	// 		GetOrders()
+	// 	})
+	// 	.catch(function (error) {
+	// 		console.log(error);
+	// 	})
+	// 	.finally(function () {
+	// 	});
+	// }
+	// const OrderDelivered = async (id) => {
+	// 	await axios.get(`/api/orderdelivered`, {
+	// 		params: {
+	// 			fieldState: delivered ? 1 : 0 ,
+	// 			orderId: id
+	// 		}
+	// 	})
+	// 	.then(function (response) {
+	// 		GetOrders()
+	// 	})
+	// 	.catch(function (error) {
+	// 		console.log(error);
+	// 	})
+	// 	.finally(function () {
+	// 	});
+	// }
 	useEffect(() => {
 		GetOrders()
 		console.log(items)
@@ -183,7 +183,7 @@ const TransportList = () => {
 								</Card.Header>
 								<Accordion.Collapse eventKey={`${i}`} >
 								  <Card.Body>
-								  <Row>			
+								  {/* <Row>			
 									<Col sm>
 									<State>
 											<Form.Check
@@ -219,7 +219,7 @@ const TransportList = () => {
 
 									</Col>
 
-									</Row>
+									</Row> */}
 							 	<Form>
 									<Form.Row>
 										<Form.Group  as={Col} md="6" controlId="validationCustom01">
@@ -232,7 +232,11 @@ const TransportList = () => {
 												defaultValue={item.order_paid}
 											/>
 										</Form.Group>
-										<Form.Group as={Col} md="6" controlId="validationCustom02">
+										<Form.Group as={Col} md="12" >
+											<Form.Label>Lisätiedot keittiölle</Form.Label>
+											<Form.Control type="textarea" disabled placeholder="Lisätiedot keittiölle" required defaultValue={item.comments_kitchen}/>
+										</Form.Group>
+										{/* <Form.Group as={Col} md="6" controlId="validationCustom02">
 											<Form.Label>Tilaus valmis kuljetettavaksi</Form.Label>
 											<Form.Control
 												
@@ -240,11 +244,11 @@ const TransportList = () => {
 												placeholder="Klo"
 												defaultValue=""
 											/>
-										</Form.Group>
+										</Form.Group> */}
 									
 									</Form.Row>
-									<h4>Kuljettaja täyttää:</h4>
-									<Row>			
+									<h4>Tiedot kuljettajalle:</h4>
+									{/* <Row>			
 									<Col sm>
 									<State>
 											<Form.Check
@@ -280,15 +284,15 @@ const TransportList = () => {
 
 									</Col>
 
-									</Row>
+									</Row> */}
 									<Form.Row>
-										<Form.Group as={Col} md="6" controlId="validationCustom03">
+										{/* <Form.Group as={Col} md="6" controlId="validationCustom03">
 											<Form.Label>Tilaus perillä noin</Form.Label>
 											<Form.Control type="text" placeholder="Klo" required />
 											<Form.Control.Feedback type="invalid">
 												Anna toimitusaika
 											</Form.Control.Feedback>
-										</Form.Group>
+										</Form.Group> */}
 										<Form.Group as={Col} md="3" >
 											<Form.Label>Katuosoite</Form.Label>
 											<Form.Control type="text" disabled placeholder="Katuosoite" required defaultValue={item.customer_street} />
@@ -301,10 +305,7 @@ const TransportList = () => {
 											<Form.Label>Kaupunki</Form.Label>
 											<Form.Control type="text" disabled placeholder="Kaupunki" required defaultValue={item.customer_city}/>
 										</Form.Group>
-										<Form.Group as={Col} md="12" >
-											<Form.Label>Lisätiedot keittiölle</Form.Label>
-											<Form.Control type="textarea" disabled placeholder="Lisätiedot kuljettajalle" required defaultValue={item.comments_kitchen}/>
-										</Form.Group>
+										
 										<Form.Group as={Col} md="12" >
 											<Form.Label>Lisätiedot kuljettajalle</Form.Label>
 											<Form.Control type="textarea" disabled placeholder="Lisätiedot kuljettajalle" required defaultValue={item.comments_transport}/>

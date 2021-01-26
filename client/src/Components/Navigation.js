@@ -24,7 +24,7 @@ const Navigation = (props) => {
 					<Nav className="mr-auto">
 							<Nav.Link className="link" href="/transportlist">Tilausseuranta</Nav.Link>
 							<Nav.Link href="/itemslist">Ruokalista</Nav.Link>
-							<Nav.Link href="/restaurant">Ravintolan tiedot</Nav.Link>
+							{/* <Nav.Link href="/restaurant">Ravintolan tiedot</Nav.Link> */}
 							
 							<Nav.Link>
 								{user.name}
