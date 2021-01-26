@@ -29,6 +29,7 @@ const TransportList = () => {
 	const [prepared, setPrepared] = useState(true);
 	const [inDelivery, setInDelivery] = useState(true);
 	const [delivered, setDelivered] = useState(true);
+
 	const GetOrders = async () => {
 		setIsLoading(true)
 		await setInterval(() => {
@@ -41,6 +42,7 @@ const TransportList = () => {
 					let data = response.data
 					setItems(data)
 					setIsLoading(false)
+					console.log(response)
 			
 				})
 				.catch(function (error) {
@@ -71,75 +73,75 @@ const TransportList = () => {
 		});
 	}
 	
-	// const orderRecieved = async (id) => {
-	// 	await axios.get(`/api/orderrecieved`, {
-	// 		params: {
-	// 			fieldState: recieved ? 1 : 0 ,
-	// 			orderId: id
-	// 		}
-	// 	})
-	// 	.then(function (response) {
-	// 		GetOrders()
-	// 	})
-	// 	.catch(function (error) {
-	// 		console.log(error);
-	// 	})
-	// 	.finally(function () {
+	const orderRecieved = async (id) => {
+		await axios.get(`/api/orderrecieved`, {
+			params: {
+				fieldState: recieved ? 1 : 0 ,
+				orderId: id
+			}
+		})
+		.then(function (response) {
+			GetOrders()
+		})
+		.catch(function (error) {
+			console.log(error);
+		})
+		.finally(function () {
 	
-	// 	});
+		});
 	
-	// }
-	// const orderPrepared = async (id) => {
-	// 	await axios.get(`/api/orderprepared`, {
-	// 		params: {
-	// 			fieldState: prepared ? 1 : 0 ,
-	// 			orderId: id
-	// 		}
-	// 	})
-	// 	.then(function (response) {
-	// 		GetOrders()
-	// 	})
-	// 	.catch(function (error) {
-	// 		console.log(error);
-	// 	})
-	// 	.finally(function () {
-	// 	});
-	// }
-	// const OrderInDelivery = async (id) => {
-	// 	await axios.get(`/api/orderindelivery`, {
-	// 		params: {
-	// 			fieldState: inDelivery ? 1 : 0 ,
-	// 			orderId: id
-	// 		}
-	// 	})
-	// 	.then(function (response) {
-	// 		GetOrders()
-	// 	})
-	// 	.catch(function (error) {
-	// 		console.log(error);
-	// 	})
-	// 	.finally(function () {
-	// 	});
-	// }
-	// const OrderDelivered = async (id) => {
-	// 	await axios.get(`/api/orderdelivered`, {
-	// 		params: {
-	// 			fieldState: delivered ? 1 : 0 ,
-	// 			orderId: id
-	// 		}
-	// 	})
-	// 	.then(function (response) {
-	// 		GetOrders()
-	// 	})
-	// 	.catch(function (error) {
-	// 		console.log(error);
-	// 	})
-	// 	.finally(function () {
-	// 	});
-	// }
+	}
+	const orderPrepared = async (id) => {
+		await axios.get(`/api/orderprepared`, {
+			params: {
+				fieldState: prepared ? 1 : 0 ,
+				orderId: id
+			}
+		})
+		.then(function (response) {
+			GetOrders()
+		})
+		.catch(function (error) {
+			console.log(error);
+		})
+		.finally(function () {
+		});
+	}
+	const OrderInDelivery = async (id) => {
+		await axios.get(`/api/orderindelivery`, {
+			params: {
+				fieldState: inDelivery ? 1 : 0 ,
+				orderId: id
+			}
+		})
+		.then(function (response) {
+			GetOrders()
+		})
+		.catch(function (error) {
+			console.log(error);
+		})
+		.finally(function () {
+		});
+	}
+	const OrderDelivered = async (id) => {
+		await axios.get(`/api/orderdelivered`, {
+			params: {
+				fieldState: delivered ? 1 : 0 ,
+				orderId: id
+			}
+		})
+		.then(function (response) {
+			GetOrders()
+		})
+		.catch(function (error) {
+			console.log(error);
+		})
+		.finally(function () {
+		});
+	}
 	useEffect(() => {
 		GetOrders()
-		console.log(user)
+		console.log(items)
 	}, [])
 
 
@@ -148,7 +150,7 @@ const TransportList = () => {
 			{
 				!items.length > 0 && !loading ? <h1>Ei tilauksia</h1> : ""
 			}
-								<Accordion  >
+				<Accordion  >
 
 				{
 					!loading ? 
@@ -181,7 +183,7 @@ const TransportList = () => {
 								</Card.Header>
 								<Accordion.Collapse eventKey={`${i}`} >
 								  <Card.Body>
-								  {/* <Row>			
+								  <Row>			
 									<Col sm>
 									<State>
 											<Form.Check
@@ -217,7 +219,7 @@ const TransportList = () => {
 
 									</Col>
 
-									</Row> */}
+									</Row>
 							 	<Form>
 									<Form.Row>
 										<Form.Group  as={Col} md="6" controlId="validationCustom01">
@@ -242,7 +244,7 @@ const TransportList = () => {
 									
 									</Form.Row>
 									<h4>Kuljettaja täyttää:</h4>
-									{/* <Row>			
+									<Row>			
 									<Col sm>
 									<State>
 											<Form.Check
@@ -278,7 +280,7 @@ const TransportList = () => {
 
 									</Col>
 
-									</Row> */}
+									</Row>
 									<Form.Row>
 										<Form.Group as={Col} md="6" controlId="validationCustom03">
 											<Form.Label>Tilaus perillä noin</Form.Label>

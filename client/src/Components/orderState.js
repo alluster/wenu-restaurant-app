@@ -22,7 +22,6 @@ const State = styled.div`
 const OrderState = (props) => {
 
 	const [checked, setChecked] = useState(props.orderRecieved);
-	console.log(checked);
 
 	const orderRecievedFieldName = 'order_recieved'
 	const handleChange = async () => {

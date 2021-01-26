@@ -21,7 +21,6 @@ const Navigation = (props) => {
 				{
 					props.auth ?
 					<Navbar.Collapse id="responsive-navbar-nav">
-{console.log(user)}
 					<Nav className="mr-auto">
 							<Nav.Link className="link" href="/transportlist">Tilausseuranta</Nav.Link>
 							<Nav.Link href="/itemslist">Ruokalista</Nav.Link>
@@ -30,7 +29,7 @@ const Navigation = (props) => {
 							<Nav.Link>
 								{user.name}
 							</Nav.Link>
-							<Nav.Link>
+							<Nav.Link inline>
 								<Button onClick={() => logout({ returnTo: window.location.origin })}>Kirjaudu ulos</Button>
 							</Nav.Link>
 							</Nav>
@@ -39,7 +38,7 @@ const Navigation = (props) => {
 					<Navbar.Collapse id="responsive-navbar-nav">
 
 					<Nav className="mr-auto">
-						<Nav.Link><Button onClick={() => loginWithRedirect()}>Kirjaudu</Button></Nav.Link>
+						<Nav.Link inline><Button onClick={() => loginWithRedirect()}>Kirjaudu</Button></Nav.Link>
 						</Nav>
 					</Navbar.Collapse>
 				}

@@ -52,7 +52,6 @@ const ItemsList = (props) => {
 	}
 	useEffect(() => {
 		GetItems()
-		console.log(items)
 	}, [])
 	return (
 		<Container style={{minHeight: "100vh"}}>
