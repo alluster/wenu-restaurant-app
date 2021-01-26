@@ -21,7 +21,7 @@ const Navigation = (props) => {
 				{
 					props.auth ?
 					<Navbar.Collapse id="responsive-navbar-nav">
-
+{console.log(user)}
 					<Nav className="mr-auto">
 							<Nav.Link className="link" href="/transportlist">Tilausseuranta</Nav.Link>
 							<Nav.Link href="/itemslist">Ruokalista</Nav.Link>

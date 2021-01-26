@@ -6,6 +6,7 @@ import Timestamp from 'react-timestamp';
 import { withAuthenticationRequired } from "@auth0/auth0-react";
 import OrderState from '../Components/orderState';
 import ClipLoader from "react-spinners/ClipLoader";
+import { useAuth0 } from "@auth0/auth0-react";
 
 const State = styled.div`
   height: 60px;
@@ -21,17 +22,20 @@ const State = styled.div`
 
 
 const TransportList = () => {
+	const { user } = useAuth0();
 	const [items, setItems] = useState([])
 	const [loading, setIsLoading] = useState(false)
 	const [recieved, setRecieved] = useState(true);
 	const [prepared, setPrepared] = useState(true);
 	const [inDelivery, setInDelivery] = useState(true);
 	const [delivered, setDelivered] = useState(true);
-
 	const GetOrders = async () => {
 		setIsLoading(true)
 		await setInterval(() => {
-			axios.get('/api/getorders', {
+			axios.get(`/api/getorders`, {
+				params: {
+					restaurantId: user.sub
+				}
 				})
 				.then(function (response) {
 					let data = response.data
@@ -46,7 +50,7 @@ const TransportList = () => {
 					setIsLoading(false)
 			
 				});
-		  	}, 3000);
+		  	}, 10000);
 
 	}
 	const DeleteOrder = async ( id ) => {
@@ -67,77 +71,83 @@ const TransportList = () => {
 		});
 	}
 	
-	const orderRecieved = async (id) => {
-		await axios.get(`/api/orderrecieved`, {
-			params: {
-				fieldState: recieved ? 1 : 0 ,
-				orderId: id
-			}
-		})
-		.then(function (response) {
-			GetOrders()
-		})
-		.catch(function (error) {
-			console.log(error);
-		})
-		.finally(function () {
+	// const orderRecieved = async (id) => {
+	// 	await axios.get(`/api/orderrecieved`, {
+	// 		params: {
+	// 			fieldState: recieved ? 1 : 0 ,
+	// 			orderId: id
+	// 		}
+	// 	})
+	// 	.then(function (response) {
+	// 		GetOrders()
+	// 	})
+	// 	.catch(function (error) {
+	// 		console.log(error);
+	// 	})
+	// 	.finally(function () {
 	
-		});
+	// 	});
 	
-	}
-	const orderPrepared = async (id) => {
-		await axios.get(`/api/orderprepared`, {
-			params: {
-				fieldState: prepared ? 1 : 0 ,
-				orderId: id
-			}
-		})
-		.then(function (response) {
-			GetOrders()
-		})
-		.catch(function (error) {
-			console.log(error);
-		})
-		.finally(function () {
-		});
-	}
-	const OrderInDelivery = async (id) => {
-		await axios.get(`/api/orderindelivery`, {
-			params: {
-				fieldState: inDelivery ? 1 : 0 ,
-				orderId: id
-			}
-		})
-		.then(function (response) {
-			GetOrders()
-		})
-		.catch(function (error) {
-			console.log(error);
-		})
-		.finally(function () {
-		});
-	}
-	const OrderDelivered = async (id) => {
-		await axios.get(`/api/orderdelivered`, {
-			params: {
-				fieldState: delivered ? 1 : 0 ,
-				orderId: id
-			}
-		})
-		.then(function (response) {
-			GetOrders()
-		})
-		.catch(function (error) {
-			console.log(error);
-		})
-		.finally(function () {
-		});
-	}
+	// }
+	// const orderPrepared = async (id) => {
+	// 	await axios.get(`/api/orderprepared`, {
+	// 		params: {
+	// 			fieldState: prepared ? 1 : 0 ,
+	// 			orderId: id
+	// 		}
+	// 	})
+	// 	.then(function (response) {
+	// 		GetOrders()
+	// 	})
+	// 	.catch(function (error) {
+	// 		console.log(error);
+	// 	})
+	// 	.finally(function () {
+	// 	});
+	// }
+	// const OrderInDelivery = async (id) => {
+	// 	await axios.get(`/api/orderindelivery`, {
+	// 		params: {
+	// 			fieldState: inDelivery ? 1 : 0 ,
+	// 			orderId: id
+	// 		}
+	// 	})
+	// 	.then(function (response) {
+	// 		GetOrders()
+	// 	})
+	// 	.catch(function (error) {
+	// 		console.log(error);
+	// 	})
+	// 	.finally(function () {
+	// 	});
+	// }
+	// const OrderDelivered = async (id) => {
+	// 	await axios.get(`/api/orderdelivered`, {
+	// 		params: {
+	// 			fieldState: delivered ? 1 : 0 ,
+	// 			orderId: id
+	// 		}
+	// 	})
+	// 	.then(function (response) {
+	// 		GetOrders()
+	// 	})
+	// 	.catch(function (error) {
+	// 		console.log(error);
+	// 	})
+	// 	.finally(function () {
+	// 	});
+	// }
 	useEffect(() => {
 		GetOrders()
+		console.log(user)
 	}, [])
+
+
 	return (
 		<Container style={{minHeight: "100vh"}}>
+			{
+				!items.length > 0 && !loading ? <h1>Ei tilauksia</h1> : ""
+			}
 								<Accordion  >
 
 				{
@@ -171,7 +181,7 @@ const TransportList = () => {
 								</Card.Header>
 								<Accordion.Collapse eventKey={`${i}`} >
 								  <Card.Body>
-								  <Row>			
+								  {/* <Row>			
 									<Col sm>
 									<State>
 											<Form.Check
@@ -207,7 +217,7 @@ const TransportList = () => {
 
 									</Col>
 
-									</Row>
+									</Row> */}
 							 	<Form>
 									<Form.Row>
 										<Form.Group  as={Col} md="6" controlId="validationCustom01">
@@ -232,7 +242,7 @@ const TransportList = () => {
 									
 									</Form.Row>
 									<h4>Kuljettaja täyttää:</h4>
-									<Row>			
+									{/* <Row>			
 									<Col sm>
 									<State>
 											<Form.Check
@@ -268,7 +278,7 @@ const TransportList = () => {
 
 									</Col>
 
-									</Row>
+									</Row> */}
 									<Form.Row>
 										<Form.Group as={Col} md="6" controlId="validationCustom03">
 											<Form.Label>Tilaus perillä noin</Form.Label>
@@ -302,7 +312,7 @@ const TransportList = () => {
 									</Form>
 								
 							 	
-							  <Button onClick={() => DeleteOrder(item.id)}>Tuote on kuljetettu asiakkaalle</Button>
+							  <Button onClick={() => DeleteOrder(item.id)}>Tilaus on kuljetettu asiakkaalle</Button>
 								  </Card.Body>
 								</Accordion.Collapse>
 							  </Card>
@@ -314,9 +324,9 @@ const TransportList = () => {
 						})
 					
 					:
+					
 					<div style={{width: '40px', marginLeft: 'auto', marginRight: 'auto', marginTop: '100px'}}>
-					<ClipLoader loading={loading}  size={40} />
-
+						<ClipLoader   size={40} />					
 					</div>
 
 				}

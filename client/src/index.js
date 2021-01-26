@@ -10,6 +10,9 @@ ReactDOM.render(
 		domain="wenu.eu.auth0.com"
 		clientId="czPgh7GkLoEIq4Bh3yDk7nuxhrrL1mZ7"
 		redirectUri={window.location.origin}
+		audience="https://wenu.eu.auth0.com/api/v2/"
+		scope="read:current_user update:current_user_metadata"
+
 	>
 		<App />
 		  </Auth0Provider>

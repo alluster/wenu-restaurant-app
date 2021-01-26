@@ -41,7 +41,7 @@ var authToken = '479dc8bd74671334d95494b71b0c3dc2';   // Your Auth Token from ww
 app.get('/api/additem', (req, res) => {
 	pool.getConnection(function(err, connection) {
 		if (err) throw err; 
-		query = SQL`INSERT INTO items (name, description, price) VALUES (${req.query.name}, ${req.query.description},${req.query.price})`
+		query = SQL`INSERT INTO items (name, description, price, restaurant_id) VALUES (${req.query.name},${req.query.description},${req.query.price},${req.query.restaurantId})`
 		connection.query(
 			query,
 			function (error, results, fields) {
@@ -54,9 +54,6 @@ app.get('/api/additem', (req, res) => {
 
 })
 app.get('/api/orderrecieved', (req, res) => {
-	console.log(req);
-	var name = req.query.fieldName;
-
 	pool.getConnection(function(err, connection) {
 		if (err) throw err; 
 		query = SQL`UPDATE orders SET order_recieved=${req.query.fieldState} WHERE order_id=${req.query.orderId}`
@@ -72,9 +69,6 @@ app.get('/api/orderrecieved', (req, res) => {
 
 })
 app.get('/api/orderprepared', (req, res) => {
-	console.log(req);
-	var name = req.query.fieldName;
-
 	pool.getConnection(function(err, connection) {
 		if (err) throw err; 
 		query = SQL`UPDATE orders SET order_prepared=${req.query.fieldState} WHERE order_id=${req.query.orderId}`
@@ -90,9 +84,6 @@ app.get('/api/orderprepared', (req, res) => {
 
 })
 app.get('/api/orderindelivery', (req, res) => {
-	console.log(req);
-	var name = req.query.fieldName;
-
 	pool.getConnection(function(err, connection) {
 		if (err) throw err; 
 		query = SQL`UPDATE orders SET order_in_delivery=${req.query.fieldState} WHERE order_id=${req.query.orderId}`
@@ -108,9 +99,6 @@ app.get('/api/orderindelivery', (req, res) => {
 
 })
 app.get('/api/orderdelivered', (req, res) => {
-	console.log(req);
-	var name = req.query.fieldName;
-
 	pool.getConnection(function(err, connection) {
 		if (err) throw err; 
 		query = SQL`UPDATE orders SET order_delivered=${req.query.fieldState} WHERE order_id=${req.query.orderId}`
@@ -142,7 +130,6 @@ app.get('/api/deleteitem/:id', (req, res) => {
 })
 app.get('/api/getitem/:id', (req, res) => {
 	pool.getConnection(function(err, connection) {
-
 		if (err) throw err; 
 		query = SQL`SELECT * FROM items WHERE id=${req.params.id}`
 		connection.query(
@@ -159,7 +146,7 @@ app.get('/api/getitems', (req, res) => {
 	pool.getConnection(function(err, connection) {
 
 		if (err) throw err; 
-		query = SQL`SELECT * FROM items`
+		query = SQL`SELECT * FROM items WHERE restaurant_id=${req.query.restaurantId}`
 		connection.query(
 			query,
 			function (error, results, fields) {
@@ -172,9 +159,8 @@ app.get('/api/getitems', (req, res) => {
 })
 app.get('/api/getorders', (req, res) => {
 	pool.getConnection(function(err, connection) {
-
 		if (err) throw err; 
-		query = SQL`SELECT * FROM orders`
+		query = SQL`SELECT * FROM orders WHERE restaurant_id=${req.query.restaurantId}` 
 		connection.query(
 			query,
 			function (error, results, fields) {

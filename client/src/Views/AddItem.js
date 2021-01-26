@@ -3,10 +3,11 @@ import { Button, Container, Form } from 'react-bootstrap';
 import axios from 'axios';
 import { useHistory } from "react-router-dom";
 import { withAuthenticationRequired } from "@auth0/auth0-react";
+import { useAuth0 } from "@auth0/auth0-react";
 
 const AddItem = (props) => {
 	let history = useHistory();
-
+	const { user } = useAuth0();
 	const [name, setName] = useState("")
 	const [description, setDescription] = useState("")
 	const [price, setPrice] = useState("")
@@ -19,12 +20,13 @@ const AddItem = (props) => {
 				params: {
 					name: name,
 					description: description,
-					price: price
+					price: price,
+					restaurantId: user.sub
 					
 				}	
 			})
 		
-			.then(alert("Tuote lisätty"), history.push.push('/itemslist'))
+			.then(alert("Tuote lisätty"), history.push('/itemslist'))
 		} 
 		catch (error) {
 			console.error(error.message)
@@ -34,31 +36,29 @@ const AddItem = (props) => {
 		<Container>
 			<Form>
 				<Form.Group controlId="formBasicEmail">
-					<Form.Label>Meal name</Form.Label>
-					<Form.Control type="text" placeholder="Enter meal name" value={name} onChange={(e) => setName(e.target.value)} />
+					<Form.Label>Annoksen nimi</Form.Label>
+					<Form.Control type="text" placeholder="Nimi" value={name} onChange={(e) => setName(e.target.value)} />
 						<Form.Text className="text-muted" >
-							Make it tasty!
+							
 						</Form.Text>
 				</Form.Group>
 				<Form.Group controlId="formBasicEmail">
-					<Form.Label>Meal Description</Form.Label>
-					<Form.Control type="text" placeholder="Enter meal description" value={description} onChange={(e) => setDescription(e.target.value)} />
+					<Form.Label>Annoksen kuvaus</Form.Label>
+					<Form.Control type="text" placeholder="Kuvaus" value={description} onChange={(e) => setDescription(e.target.value)} />
 					<Form.Text className="text-muted">
-						Rock my world!
+						
 					</Form.Text>
 				</Form.Group>
 				<Form.Group >
-					<Form.Label>Meal price in €</Form.Label>
-					<Form.Control type="text" placeholder="Enter meal price" value={price} onChange={(e) => setPrice(e.target.value)} />
+					<Form.Label>Annoksen hinta / €</Form.Label>
+					<Form.Control type="text" placeholder="Hinta" value={price} onChange={(e) => setPrice(e.target.value)} />
 					<Form.Text className="text-muted">
-						Make them pay!
+						
 					</Form.Text>
 				</Form.Group>
-				<Form.Group controlId="formBasicCheckbox">
-					<Form.Check type="checkbox" label="Add item to menu" />
-				</Form.Group>
+			
 				<Button variant="primary" type="submit" onClick={e => handleSubmit(e)}>
-					Submit
+					Lisää annos listalle
 				</Button>
 			</Form>
 		</Container>
