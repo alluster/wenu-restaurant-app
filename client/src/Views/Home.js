@@ -1,9 +1,10 @@
 import React, {useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { Table, Jumbotron, Alert } from 'react-bootstrap';
+import { Table, Jumbotron, Alert, Button } from 'react-bootstrap';
 import axios from 'axios';
 import Hero from '../Components/Hero'
 import Container from '../Components/Container'
+
 
 const AlertStyled = styled.div`
 	z-index: 10000;
@@ -40,16 +41,7 @@ const Home = () => {
 
 			</ImageContainer>
 				<Container>
-					<Alert variant="light">
-						<Alert.Heading>Hei, tervetuloa Wenu palveluun!</Alert.Heading>
-						<p>
-							Kehitämme Wenu -palvelua parasta aikaa. Pyrimme aloittamaan ruokatoimitusten tekemisen vuoden 2021 alkupuolella.
-						</p>
-						<hr />
-						<p className="mb-0">
-						Mikäli kaipaat lisätietoja tai haluat Wenu palvelun käyttöön, ota yhteyttä! aleksanteri@helau.io
-						</p>
-					</Alert>
+
 					
 				</Container>
 					
