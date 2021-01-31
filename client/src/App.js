@@ -35,16 +35,16 @@ function App() {
 			backgroundColor: '#F8F9FA',
 			minHeight: "calc(100vh + 300px)"
       }}>
-		  <Container fluid>
-				<Navigation auth={isAuthenticated}/>
-		  </Container>
+		<Container fluid>
+			<Navigation auth={isAuthenticated}/>
+		</Container>
        
 
         <Switch>
-          <Route path="/itemslist" component={ authenticated ? ItemsList : RedirectToHome} />
-          <Route path="/transportlist" component={ authenticated ? TransportList : RedirectToHome} />
-          <Route path="/additem" component={ authenticated ? AddItem : RedirectToHome} />
-		  <Route path="/restaurant" component={ authenticated ? Restaurant : RedirectToHome} />
+			<Route path="/itemslist" component={ withAuthenticationRequired(ItemsList)} />
+			<Route path="/transportlist" component={ withAuthenticationRequired(TransportList)} />
+			<Route path="/additem" component={ authenticated ? AddItem : RedirectToHome} />
+			<Route path="/restaurant" component={ authenticated ? Restaurant : RedirectToHome} />
 
           <Route exact path="/" component={Home} />
         </Switch>

@@ -232,10 +232,6 @@ const TransportList = () => {
 												defaultValue={item.order_paid}
 											/>
 										</Form.Group>
-										<Form.Group as={Col} md="12" >
-											<Form.Label>Lisätiedot keittiölle</Form.Label>
-											<Form.Control type="textarea" disabled placeholder="Lisätiedot keittiölle" required defaultValue={item.comments_kitchen}/>
-										</Form.Group>
 										{/* <Form.Group as={Col} md="6" controlId="validationCustom02">
 											<Form.Label>Tilaus valmis kuljetettavaksi</Form.Label>
 											<Form.Control
@@ -286,13 +282,7 @@ const TransportList = () => {
 
 									</Row> */}
 									<Form.Row>
-										{/* <Form.Group as={Col} md="6" controlId="validationCustom03">
-											<Form.Label>Tilaus perillä noin</Form.Label>
-											<Form.Control type="text" placeholder="Klo" required />
-											<Form.Control.Feedback type="invalid">
-												Anna toimitusaika
-											</Form.Control.Feedback>
-										</Form.Group> */}
+									 
 										<Form.Group as={Col} md="3" >
 											<Form.Label>Katuosoite</Form.Label>
 											<Form.Control type="text" disabled placeholder="Katuosoite" required defaultValue={item.customer_street} />
@@ -305,7 +295,10 @@ const TransportList = () => {
 											<Form.Label>Kaupunki</Form.Label>
 											<Form.Control type="text" disabled placeholder="Kaupunki" required defaultValue={item.customer_city}/>
 										</Form.Group>
-										
+										<Form.Group as={Col} md="12" >
+											<Form.Label>Lisätiedot keittiölle</Form.Label>
+											<Form.Control type="textarea" disabled placeholder="Lisätiedot kuljettajalle" required defaultValue={item.comments_kitchen}/>
+										</Form.Group>
 										<Form.Group as={Col} md="12" >
 											<Form.Label>Lisätiedot kuljettajalle</Form.Label>
 											<Form.Control type="textarea" disabled placeholder="Lisätiedot kuljettajalle" required defaultValue={item.comments_transport}/>

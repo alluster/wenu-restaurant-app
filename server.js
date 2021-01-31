@@ -41,7 +41,22 @@ var authToken = '479dc8bd74671334d95494b71b0c3dc2';   // Your Auth Token from ww
 app.get('/api/additem', (req, res) => {
 	pool.getConnection(function(err, connection) {
 		if (err) throw err; 
-		query = SQL`INSERT INTO items (name, description, price, restaurant_id) VALUES (${req.query.name},${req.query.description},${req.query.price},${req.query.restaurantId})`
+		query = SQL`INSERT INTO items (name, description, price, restaurant_id, category, meat_origin, allergens) VALUES (${req.query.name},${req.query.description},${req.query.price},${req.query.restaurantId}, ${req.query.category}, ${req.query.meatOrigin}, ${req.query.allergens})`
+		connection.query(
+			query,
+			function (error, results, fields) {
+				res.send(results)
+
+			connection.release();
+			if (error) throw error;
+		});
+	});
+
+})
+app.get('/api/addcategory', (req, res) => {
+	pool.getConnection(function(err, connection) {
+		if (err) throw err; 
+		query = SQL`INSERT INTO categories (category, restaurant_id) VALUES (${req.query.category},${req.query.restaurantId})`
 		connection.query(
 			query,
 			function (error, results, fields) {
@@ -147,6 +162,21 @@ app.get('/api/getitems', (req, res) => {
 
 		if (err) throw err; 
 		query = SQL`SELECT * FROM items WHERE restaurant_id=${req.query.restaurantId}`
+		connection.query(
+			query,
+			function (error, results, fields) {
+				res.send(results)
+				connection.release();
+				if (error) throw error;
+			}
+		);
+	});
+})
+app.get('/api/getcategories', (req, res) => {
+	pool.getConnection(function(err, connection) {
+
+		if (err) throw err; 
+		query = SQL`SELECT * FROM categories WHERE restaurant_id=${req.query.restaurantId}`
 		connection.query(
 			query,
 			function (error, results, fields) {

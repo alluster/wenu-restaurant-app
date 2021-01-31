@@ -62,8 +62,8 @@ const Hero = () => {
 			
 			<Container>
 		<Text>
-						<H1>Ruokalista ja tilausten hallinta yhdellä koodilla ravintolan kotisivuille.</H1>
-						<h3>Wenu ohjelmiston avulla saat ravintolasi kotisivuille oman, helposti päivitettävän ruokalistan, jonka avulla asiakkaasi voivat tilata ruokaa kotiinkuljetuksella kotiin suoraan verkkosivuiltanne.</h3>
+						<H1>Ravintolasi ruokalista ja tilausten hallinta yhdessä paikassa.</H1>
+						<h3>Palvelumme avulla saat ravintolasi kotisivuille oman, helposti päivitettävän ruokalistan, jonka avulla asiakkaasi voivat tilata ruokaa kotiinkuljetuksella kotiin.</h3>
 						<CustomRow>
 						{
 							isAuthenticated ? "" :<Button size="lg" variant="success" onClick={() => loginWithRedirect()}>Kirjaudu palveluun tästä</Button>

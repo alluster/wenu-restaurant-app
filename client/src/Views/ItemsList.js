@@ -1,12 +1,18 @@
 import React, { useState, useEffect } from 'react';
-import { Card, Container, Button, Alert, Row } from 'react-bootstrap';
+import styled from 'styled-components'
+import { Card, Container, Button, Alert, CardDeck, Form, Row, Col} from 'react-bootstrap';
 import axios from 'axios'
 import { useHistory } from "react-router-dom";
 import { withAuthenticationRequired } from "@auth0/auth0-react";
 import { useAuth0 } from "@auth0/auth0-react";
 import ReactCodeSinppet from 'react-code-snippet'
 
-const ItemsList = (props) => {
+const CustomRow = styled.div `
+margin-top: 20px;
+margin-bottom: 20px;
+
+`
+const ItemsList = () => {
 	let history = useHistory();
 	const { user } = useAuth0();
 	const [items, setItems] = useState([])
@@ -24,15 +30,16 @@ const ItemsList = (props) => {
 			setItems(data)
 			setIsLoading(false)
 	
+	
 		})
 		.catch(function (error) {
 			console.log(error);
 		})
 		.finally(function () {
 			setIsLoading(false)
-	
 		});
 	}
+
 	const DeleteItem = async ( id ) => {
 		setIsLoading(true)
 		await axios.get(`/api/deleteitem/${id}`, {
@@ -50,52 +57,74 @@ const ItemsList = (props) => {
 			GetItems()
 		});
 	}
+	
+
 	useEffect(() => {
 		GetItems()
 	}, [])
 	return (
 		<Container style={{minHeight: "100vh"}}>
-			<Button onClick={() => history.push('/additem')}>Lisää uusi tuote</Button>
-				{
-					!loading ? 
-					
+			<CustomRow>
+				<Button  onClick={() => history.push('/additem')}>Lisää ruokalistalle uusi tuote</Button>
+			</CustomRow>
+			
+			
+			{
+				!loading ? 
+				<Row>
+
+					{
 						items.map((item, i) => {
 							return(
-								<Card key={i} style={{ width: '18rem' }}>
-								<Card.Body>
-								  <Card.Title>{item.name}</Card.Title>
-								  <Card.Subtitle className="mb-2 text-muted">Id: {item.id}</Card.Subtitle>
-								  <Card.Text>
-									{item.description}
-								  </Card.Text>
-								  <Card.Text>
-									{item.price}
-								  </Card.Text>
-								  <Button variant="warning" onClick={() => DeleteItem(item.id)}>Poista listalta</Button>
-								 
-								</Card.Body>
-							  </Card>
-			
+								<Col sm={4} >
+								
+									<Card key={i} >
+										<Card.Body>
+											<Card.Title>
+												Annoksen nimi: {item.name}
+											</Card.Title>
+											<Card.Subtitle className="mb-2 text-muted">Id: {item.id}</Card.Subtitle>
+											<Card.Text>
+												Kuvaus: {item.description}
+											</Card.Text>
+											<Card.Text>
+												Kategoria: {item.category}
+											</Card.Text>
+											<Card.Text>
+												Hinta: {item.price}
+											</Card.Text>
+											<Card.Text>
+												Allergeenit: {item.allergens}
+											</Card.Text>
+											<Card.Text>
+												Lihan alkuperämaa: {item.meat_origin}
+											</Card.Text>										
+
+					
+											<Button variant="warning" onClick={() => DeleteItem(item.id)}>Poista listalta</Button>
+										</Card.Body>
+									</Card>
+								</Col>
+
 			
 							)
 						})
-					
-					
-					:
-					<h1>Loading </h1>
-				}
-	
-					<Alert variant="dark">
-						Voit käydä katsomassa miltä ruokalistasi 
-						<Alert.Link target="blank" href={`https://ruokalista-app.herokuapp.com/${user.sub}`}> näyttää</Alert.Link>
-					</Alert>
+					}
+				</Row>
+				:
+				<h1	h1>Loading </h1>
+			}
+
+			<Alert variant="ligh">
+				Esikatsele ruokalistaasi 
+				<Alert.Link target="blank" href={`https://ruokalista-app.herokuapp.com/${user.sub}`}> Esikatsele</Alert.Link>
+			</Alert>
 			
-				<Alert variant="dark">
+			<Alert variant="light">
 				<p>Kopioi tämä koodi kotisivuillesi saadaksesi ruokalistasi näkyviin:</p>
-					<ReactCodeSinppet lang="html" code={`<iframe src="https://ruokalista-app.herokuapp.com/${user.sub}" style="height:1000px;width:100%;border:none" >
-					</iframe>`}>
-					</ReactCodeSinppet>
-  				</Alert>
+				<ReactCodeSinppet lang="html" code={`<iframe src="https://ruokalista-app.herokuapp.com/${user.sub}" style="height:1000px;width:100%; border:none" ></iframe>`}>
+				</ReactCodeSinppet>
+			</Alert>
 		</Container>
   );
 }
