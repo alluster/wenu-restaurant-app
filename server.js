@@ -8,6 +8,7 @@ const sslRedirect = require('heroku-ssl-redirect');
 var twilio = require('twilio');
 const bodyParser = require('body-parser')
 const path = require('path')
+var nodemailer = require('nodemailer');
 
 
 app.use(sslRedirect());
@@ -28,6 +29,30 @@ const pool = mysql.createPool({
 var accountSid = 'ACff430f1198ce10a3b4c9f8e2dea00ad2'; // Your Account SID from www.twilio.com/console
 var authToken = '479dc8bd74671334d95494b71b0c3dc2';   // Your Auth Token from www.twilio.com/console
 
+
+var transporter = nodemailer.createTransport({
+	service: 'gmail',
+	auth: {
+	  user: process.env.REACT_APP_EMAIL,
+	  pass: process.env.REACT_APP_EMAIL_PASSWORD
+	}
+  });
+
+  app.get('/api/sendemail', (req, res) => {
+	var mailOptions = {
+		from: process.env.REACT_APP_EMAIL,
+		to: process.env.REACT_APP_EMAIL,
+		subject: 'Haluaisin tietää lisää Wenu palvelustanne',
+		text: `${req.query.email}`
+	  };
+  transporter.sendMail(mailOptions, function(error, info){
+	if (error) {
+	  console.log(error);
+	} else {
+	  console.log('Email sent: ' + info.response);
+	}
+  });
+  })
 // var twilio = require('twilio');
 // var client = new twilio(accountSid, authToken);
 

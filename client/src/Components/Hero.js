@@ -5,6 +5,7 @@ import { Navbar, Nav, Card, Accordion, Col,Button, Row, Alert} from 'react-boots
 import { Link } from "react-router-dom";
 import Container from './Container'
 import { useAuth0 } from "@auth0/auth0-react";
+import Emailer from './Emailer';
 
 const Content = styled.div `
 	position: relative;
@@ -64,11 +65,10 @@ const Hero = () => {
 		<Text>
 						<H1>Ravintolasi ruokalista ja tilausten hallinta yhdessä paikassa.</H1>
 						<h3>Palvelumme avulla saat ravintolasi kotisivuille oman, helposti päivitettävän ruokalistan, jonka avulla asiakkaasi voivat tilata ruokaa kotiinkuljetuksella kotiin.</h3>
-						<CustomRow>
-						{
-							isAuthenticated ? "" :<Button size="lg" variant="success" onClick={() => loginWithRedirect()}>Kirjaudu palveluun tästä</Button>
-						}
-						</CustomRow>
+						<Emailer />
+							{
+								isAuthenticated ? "" :<Button size="lg" variant="success" onClick={() => loginWithRedirect()}>Kirjaudu palveluun tästä</Button>
+							}
 					
 						</Text>		
 				</Container>
