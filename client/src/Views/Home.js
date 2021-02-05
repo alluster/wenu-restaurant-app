@@ -9,42 +9,36 @@ import Container from '../Components/Container'
 const AlertStyled = styled.div`
 	z-index: 10000;
 	width: 100%;
-	postion: relative;
+	position: relative;
+
 `;
 const Content = styled.div`
 	height: calc(100% + 1000px);
+
 `
 const Image = styled.img `
-position: relative;
-
+	position: relative;
 	max-width: 100%;
 	min-height: 200px;
-	margin-top: -100px;
 	margin-bottom: 50px;
 	// transform: translate(0%, 30%);
 	z-index: 1000;
 
 `;
-const ImageContainer = styled(Container)`
-margin-top: 50px;
-width: 100%;
+const ImageContainer = styled.div`
+	width: 100%;
+	text-align: center;
+
 `
 
 const Home = () => {
 
 	return (
 		<Content>
-			
 			<Hero />
 			<ImageContainer>
-						<Image src="/app.png" />
-
-			</ImageContainer>
-				<Container>
-
-					
-				</Container>
-					
+				<Image src="/map.png" />
+			</ImageContainer>					
 		</Content>
 		
   );

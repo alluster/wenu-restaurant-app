@@ -14,18 +14,17 @@ const Content = styled.div `
 	height: calc(100% + 300px);
 	// background-image: url('bg.svg');
 	background-repeat: no-repeat;
-	margin-bottom: 20px;
 	background-size: cover;
 	overflow: hidden;
-	background-image: linear-gradient(to right, #6a11cb 0%, #2575fc 100%);
-	clip-path: polygon(0 0, 100% 0, 100% 100%, 0 80%);
-
+	// background-image: linear-gradient(to right, #6a11cb 0%, #2575fc 100%);
+	// clip-path: polygon(0 0, 100% 0, 100% 100%, 0 80%);
+	background-color: #F4F4F2;
 	`;
 
 
 
 const Text = styled.div`
-	color: white;
+	// color: white;
 	min-height: 200px;
 	max-width: 100%;
 	margin-top: 100px;
@@ -46,7 +45,7 @@ const H1 = styled.h1`
 	font-size: 80px;
 	margin-bottom: 50px;
 	@media (max-width: 768px) {
-		font-size: 40px;
+		font-size: 50px;
 		margin-bottom: 20px;
 
 	  }
@@ -62,13 +61,18 @@ const Hero = () => {
 		<Content>
 			
 			<Container>
-		<Text>
+				<Text>
 						<H1>Ravintolasi ruokalista ja tilausten hallinta yhdessä paikassa.</H1>
 						<h3>Palvelumme avulla saat ravintolasi kotisivuille oman, helposti päivitettävän ruokalistan, jonka avulla asiakkaasi voivat tilata ruokaa kotiinkuljetuksella kotiin.</h3>
-						<Emailer />
-							{
-								isAuthenticated ? "" :<Button size="lg" variant="success" onClick={() => loginWithRedirect()}>Kirjaudu palveluun tästä</Button>
-							}
+						{
+							isAuthenticated ?
+								""
+								:
+								<Emailer />
+						}
+						{
+							isAuthenticated ? "" :<Button size="lg" variant="success" onClick={() => loginWithRedirect()}>Kirjaudu palveluun tästä</Button>
+						}
 					
 						</Text>		
 				</Container>
