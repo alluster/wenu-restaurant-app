@@ -65,14 +65,15 @@ const Hero = () => {
 						<H1>Ravintolasi ruokalista ja tilausten hallinta yhdessä paikassa.</H1>
 						<h3>Palvelumme avulla saat ravintolasi kotisivuille oman, helposti päivitettävän ruokalistan, jonka avulla asiakkaasi voivat tilata ruokaa kotiinkuljetuksella kotiin.</h3>
 						{
+							isAuthenticated ? "" :<Button size="lg" className='mt-4' variant="outline-primary" onClick={() => loginWithRedirect()}>Kirjaudu palveluun tästä</Button>
+						}
+						{
 							isAuthenticated ?
 								""
 								:
 								<Emailer />
 						}
-						{
-							isAuthenticated ? "" :<Button size="lg" variant="success" onClick={() => loginWithRedirect()}>Kirjaudu palveluun tästä</Button>
-						}
+					
 					
 						</Text>		
 				</Container>
