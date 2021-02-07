@@ -2,7 +2,7 @@ import React, {useEffect, useState } from 'react';
 import styled from 'styled-components';
 import Hero from '../Components/Hero';
 import RestaurantsList from '../Components/RestaurantsList';
-
+import Banner from '../Components/Banner';
 const AlertStyled = styled.div`
 	z-index: 10000;
 	width: 100%;
@@ -33,6 +33,8 @@ const Home = () => {
 	return (
 		<Content>
 			<Hero />
+			
+			<Banner header="Mikä on Wenu ja kuinka se toimii?" subheader="Wenu on uusi tapa ostaa ruokaa kuljetettuna. Wenussa ravintolat määrittelevät itse annostensa hinnat ja hoitavat kuljetuksen itse. Aina ilman välikäsiä." content="Wenu mahdollistaa ravintoloiden itsenäisen myynnin ja markkinoinnin. Ravintolat saavat tuotot kotiinkuljetuksesta itselleen ja voivat määritellä hinnaston itselleen sopivaksi. Rakennetaan yhdessä kestävä ruokailuelämys."/>
 			<ImageContainer>
 				<Image src="/map.png" />
 			</ImageContainer>	

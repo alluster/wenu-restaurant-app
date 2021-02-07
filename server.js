@@ -9,10 +9,10 @@ var twilio = require('twilio');
 const bodyParser = require('body-parser')
 const path = require('path')
 var nodemailer = require('nodemailer');
-
+const fileUpload = require('express-fileupload');
 
 app.use(sslRedirect());
-
+app.use(fileUpload());
 app.use(express.static(path.join(__dirname, 'client/build')));
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({
@@ -62,6 +62,20 @@ var transporter = nodemailer.createTransport({
 //     from: '+15012984927' // From a valid Twilio number
 // })
 // .then((message) => console.log(message.sid));
+app.post('/api/upload', (req, res) => {
+	if(req.files === null) {
+		return res.status(400).json({msg: "No file uploaded"})
+	}
+	const file = req.files.file;
+	file.mv(`${__dirname}/client/public/uploads/${file.name}`, err => {
+		if(err) {
+			console.error(err);
+			return res.status(500).send(err);
+		}
+		res.json({ fileName: file.name, filePath: `/uploads/${file.name}`})
+		})
+	})
+
 
 app.get('/api/additem', (req, res) => {
 	pool.getConnection(function(err, connection) {
@@ -277,7 +291,7 @@ app.get('/api/getrestaurants', (req, res) => {
 app.get('/api/editrestaurant', (req, res) => {
 	pool.getConnection(function(err, connection) {
 		if (err) throw err; 
-		query = SQL`UPDATE restaurants SET name=${req.query.name}, image=${req.query.image}, description=${req.query.description}, email_address=${req.query.email}, street_address=${req.query.streetAddress}, postal_code=${req.query.postalCode}, city=${req.query.city} WHERE restaurant_id=${req.query.restaurantId}`
+		query = SQL`UPDATE restaurants SET name=${req.query.name}, description=${req.query.description}, email_address=${req.query.email}, street_address=${req.query.streetAddress}, postal_code=${req.query.postalCode}, city=${req.query.city} WHERE restaurant_id=${req.query.restaurantId}`
 		connection.query(
 			query,
 			function (error, results, fields) {

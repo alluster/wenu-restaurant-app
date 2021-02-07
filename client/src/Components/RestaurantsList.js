@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components'
 import axios from 'axios'
-
+import Banner from './Banner';
 import { Navbar, Nav, Card, Accordion, Col,Button, Row, Alert} from 'react-bootstrap';
 import Container from './Container'
 
@@ -44,25 +44,21 @@ const RestaurantsList = () => {
 				loading ?
 				<h4>Loading</h4>:
 				(
-					
-				restaurants.map((item, i) => {
-					return(
-						<Col md={4}>
+					<div>
+						{
+							restaurants.map((item, i) => {
+								return(
 
-						<Card key={i} >
-							<Card.Body>
-								<Card.Title>{item.name}</Card.Title>
-								<Card.Subtitle className="mb-2 text-muted">{item.street_address} {item.city}</Card.Subtitle>
-								<Card.Text>
-								{item.description}
-								</Card.Text>
-									<Button href={`https://ruokalista-app.herokuapp.com/${item.restaurant_id}`} >Tutustu ruokalistaamme ja tilaa</Button> 
-							</Card.Body>
-							</Card>
-							</Col>
+									<Banner className="mt-3" key={i} header={item.name} subheader={`${item.street_address}, ${item.postal_code}, ${item.city}`} content={item.description}>
+											<Button href={`https://ruokalista-app.herokuapp.com/${item.restaurant_id}`} >Tutustu ruokalistaamme ja tilaa</Button> 
+									</Banner>
+									
 
-					)
-				})
+								)
+							})
+						}
+					</div>	
+
 				)
 			}
 		</Container>

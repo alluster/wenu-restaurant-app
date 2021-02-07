@@ -28,15 +28,18 @@ width: 100%;
 
 const Restaurant = () => {
 	const { user } = useAuth0();
-	const [loading, setIsLoading] = useState(false)
-	const [restaurant, setRestaurant] = useState([])
-	const [name, setName] = useState()
-	const [email, setEmail] = useState()
-	const [streetAddress, setStreetAddress] = useState()
-	const [postalCode, setPostalCode] = useState()
-	const [city, setCity] = useState()
-	const [description, setDescription] = useState()
-	const [image, setImage] = useState()
+	const [loading, setIsLoading] = useState(false);
+	const [restaurant, setRestaurant] = useState([]);
+	const [name, setName] = useState("");
+	const [email, setEmail] = useState();
+	const [streetAddress, setStreetAddress] = useState();
+	const [postalCode, setPostalCode] = useState();
+	const [city, setCity] = useState();
+	const [description, setDescription] = useState();
+
+	const [file, setFile] = useState();
+	const [fileName, setFileName] = useState()
+	const [uploadedFile, setUploadedFile] = useState({})
 
 	const GetRestaurant = async () => {
 		setIsLoading(true)
@@ -56,7 +59,6 @@ const Restaurant = () => {
 			setPostalCode(data.postal_code)
 			setDescription(data.description)
 			setCity(data.city)
-			setImage(data.image[0])
 
 		})
 		.catch(function (error) {
@@ -77,9 +79,7 @@ const Restaurant = () => {
 					postalCode: postalCode, 
 					city: city,
 					email: email,
-					restaurantId: user.sub,
-					image: image				
-				}	
+					restaurantId: user.sub				}	
 			})
 		
 		.then(alert("Ravintolan tiedot tallennettu"), GetRestaurant(), setIsLoading(false))
@@ -93,9 +93,35 @@ const Restaurant = () => {
 			setIsLoading(false)
 		});
 	}
+
+	const onFileChange = e => {
+		setFile(e.target.files[0])
+		setFileName(e.target.files[0].name)
+	}
+	const onFileSubmit = async e => {
+		e.preventDefault();
+		const formData = new FormData();
+		formData.append('file', file);
+		try {
+			const res = await axios.post('/api/upload', formData, {
+				headers: {
+					'Content-type':'multipart/form-data'
+				}
+			});
+			const { fileName, filePath } = res.data;
+			setUploadedFile({ fileName, filePath })
+		} catch(err) {
+			if(err.response.status === 500) {
+				console.log("There was a problem with the server")
+
+			}else {
+				console.log(err.response.data.msg)
+			}
+
+		}
+	}
 	useEffect(() => {
 		GetRestaurant()
-		console.log(setRestaurant)
 	}, [])
 	return (
 		<Content>
@@ -140,11 +166,13 @@ const Restaurant = () => {
 							<Form.Control placeholder="Kaupunki" value={city} onChange={(e) => setCity(e.target.value)}/>
 						</Form.Group>
 						<Form.Group>
-							<Form.File  onChange={(e) => setImage(e.target.files[0])} id="exampleFormControlFile1" label="Example file input" />
+							<Form.File onChange={onFileChange} id="exampleFormControlFile1" label="Example file input" />
 						</Form.Group>
-
+						<Button variant="primary"  onClick={onFileSubmit}>
+						Tallenna kuva
+					</Button>
 					</Form.Row>
-
+					
 
 				
 
@@ -152,9 +180,20 @@ const Restaurant = () => {
 						Tallenna tiedot
 					</Button>
 					</Form>
+					
 				}
 				
-					
+				{
+						uploadedFile ? 
+						<div>{
+console.log(uploadedFile.filePath)}
+						<img src={`.${uploadedFile.filePath}`} alt="image" />
+
+						</div>
+						
+						 :
+						 ""
+					}
 				</Container>
 					
 		</Content>
