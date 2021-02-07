@@ -4,12 +4,9 @@ import { Table, Jumbotron, Alert, Form, Col, Button } from 'react-bootstrap';
 import axios from 'axios';
 import Hero from '../Components/Hero'
 import Container from '../Components/Container'
+import { useAuth0 } from "@auth0/auth0-react";
 
-const AlertStyled = styled.div`
-	z-index: 10000;
-	width: 100%;
-	postion: relative;
-`;
+
 const Content = styled.div`
 	height: calc(100% + 1000px);
 `
@@ -30,62 +27,133 @@ width: 100%;
 `
 
 const Restaurant = () => {
+	const { user } = useAuth0();
+	const [loading, setIsLoading] = useState(false)
+	const [restaurant, setRestaurant] = useState([])
+	const [name, setName] = useState()
+	const [email, setEmail] = useState()
+	const [streetAddress, setStreetAddress] = useState()
+	const [postalCode, setPostalCode] = useState()
+	const [city, setCity] = useState()
+	const [description, setDescription] = useState()
+	const [image, setImage] = useState()
 
+	const GetRestaurant = async () => {
+		setIsLoading(true)
+		await axios.get('/api/getrestaurant', {
+			params: {
+				restaurantId: user.sub
+			}
+		})
+		.then(function (response) {
+			let data = response.data[0]
+			setRestaurant(data)
+			setIsLoading(false)
+			console.log(restaurant)
+			setName(data.name)
+			setStreetAddress(data.street_address)
+			setEmail(data.email_address)
+			setPostalCode(data.postal_code)
+			setDescription(data.description)
+			setCity(data.city)
+			setImage(data.image[0])
+
+		})
+		.catch(function (error) {
+			console.log(error);
+		})
+		.finally(function () {
+			setIsLoading(false)
+		});
+	}
+	const editRestaurant = async (e) => {
+		setIsLoading(true)
+		e.preventDefault();
+			await axios.get('/api/editrestaurant',  {
+				params: {
+					name: name,
+					description: description,
+					streetAddress: streetAddress,
+					postalCode: postalCode, 
+					city: city,
+					email: email,
+					restaurantId: user.sub,
+					image: image				
+				}	
+			})
+		
+		.then(alert("Ravintolan tiedot tallennettu"), GetRestaurant(), setIsLoading(false))
+		 
+		.catch(function (error) {
+			console.log(error);
+			setIsLoading(false)
+
+		})
+		.finally(function () {
+			setIsLoading(false)
+		});
+	}
+	useEffect(() => {
+		GetRestaurant()
+		console.log(setRestaurant)
+	}, [])
 	return (
 		<Content>
 			<Container>
 				<h3>Ravintolan tiedot</h3>
+				<p>Voit tehdä muutoksia tietoihin. Muista tallentaa.</p>
+				{
+					loading ? <h1>Loading..</h1>
+					:
 				<Form>
+			
 					<Form.Row>
-						<Form.Group as={Col} controlId="formGridEmail">
-						<Form.Label>Email</Form.Label>
-						<Form.Control type="email" placeholder="Enter email" />
+						<Form.Group as={Col} >
+							<Form.Label>Email</Form.Label>
+							<Form.Control type="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)}/>
 						</Form.Group>
 
-						<Form.Group as={Col} controlId="formGridPassword">
-						<Form.Label>Password</Form.Label>
-						<Form.Control type="password" placeholder="Password" />
+						<Form.Group as={Col}>
+							<Form.Label>Ravintolan nimi</Form.Label>
+							<Form.Control type="text" placeholder="Nimi" value={name} onChange={(e) => setName(e.target.value)}/>
+						</Form.Group>
+					</Form.Row>
+					<Form.Row>
+						<Form.Group as={Col}  >
+							<Form.Label>Ravintolan kuvaus</Form.Label>
+							<Form.Control as="textarea" rows={3} type="text" placeholder="Kuvaus" value={description} onChange={(e) => setDescription(e.target.value)}/>
 						</Form.Group>
 					</Form.Row>
 
-					<Form.Group controlId="formGridAddress1">
-						<Form.Label>Address</Form.Label>
-						<Form.Control placeholder="1234 Main St" />
+					<Form.Group >
+						<Form.Label>Katuosoite</Form.Label>
+						<Form.Control placeholder="Katuosoite" value={streetAddress} onChange={(e) => setStreetAddress(e.target.value)}/>
 					</Form.Group>
-
-					<Form.Group controlId="formGridAddress2">
-						<Form.Label>Address 2</Form.Label>
-						<Form.Control placeholder="Apartment, studio, or floor" />
-					</Form.Group>
-
 					<Form.Row>
-						<Form.Group as={Col} controlId="formGridCity">
-						<Form.Label>City</Form.Label>
-						<Form.Control />
+
+						<Form.Group as={Col} >
+							<Form.Label>Postinumero</Form.Label>
+							<Form.Control placeholder="Postinumero" value={postalCode} onChange={(e) => setPostalCode(e.target.value)}/>
+						</Form.Group>
+						<Form.Group as={Col}>
+							<Form.Label>Kaupunki</Form.Label>
+							<Form.Control placeholder="Kaupunki" value={city} onChange={(e) => setCity(e.target.value)}/>
+						</Form.Group>
+						<Form.Group>
+							<Form.File  onChange={(e) => setImage(e.target.files[0])} id="exampleFormControlFile1" label="Example file input" />
 						</Form.Group>
 
-						<Form.Group as={Col} controlId="formGridState">
-						<Form.Label>State</Form.Label>
-						<Form.Control as="select" defaultValue="Choose...">
-							<option>Choose...</option>
-							<option>...</option>
-						</Form.Control>
-						</Form.Group>
-
-						<Form.Group as={Col} controlId="formGridZip">
-						<Form.Label>Zip</Form.Label>
-						<Form.Control />
-						</Form.Group>
 					</Form.Row>
 
-					<Form.Group id="formGridCheckbox">
-						<Form.Check type="checkbox" label="Check me out" />
-					</Form.Group>
 
-					<Button variant="primary" type="submit">
-						Submit
+				
+
+					<Button variant="primary" type="submit" onClick={(e) => editRestaurant(e)}>
+						Tallenna tiedot
 					</Button>
 					</Form>
+				}
+				
 					
 				</Container>
 					

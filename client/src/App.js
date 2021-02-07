@@ -44,7 +44,7 @@ function App() {
 			<Route path="/itemslist" component={ withAuthenticationRequired(ItemsList)} />
 			<Route path="/transportlist" component={ withAuthenticationRequired(TransportList)} />
 			<Route path="/additem" component={ authenticated ? AddItem : RedirectToHome} />
-			<Route path="/restaurant" component={ authenticated ? Restaurant : RedirectToHome} />
+			<Route path="/restaurant" component={ withAuthenticationRequired(Restaurant) } />
 
           <Route exact path="/" component={Home} />
         </Switch>

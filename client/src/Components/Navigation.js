@@ -10,25 +10,27 @@ const Navigation = (props) => {
 
 	return (
 		<Navbar collapseOnSelect expand="lg" bg="light" variant="light">
-			<Navbar.Brand><Link to="/"><img src="logo-dark.svg" height="50px"/></Link></Navbar.Brand>
+			<Navbar.Brand><Link to="/"><img src="logo-dark.svg" height="30px"/></Link></Navbar.Brand>
 			<Navbar.Toggle aria-controls="responsive-navbar-nav" />
 
 			<Container>
-				<Navbar.Collapse id="responsive-navbar-nav">
+				<Navbar.Collapse className="justify-content-end" id="responsive-navbar-nav">
 
 				
 					{
 						props.auth ?
-						<Nav>
+						<Nav >
 
 							<Nav>
 								<Nav.Link className="link" href="/transportlist">Tilausseuranta</Nav.Link>
-								<Nav.Link href="/itemslist">Ruokalista</Nav.Link>							
+								<Nav.Link href="/itemslist">Ruokalista</Nav.Link>	
+								<Nav.Link href="/restaurant">Ravintolan tiedot</Nav.Link>							
+						
 								<Nav.Link>
 									{user.name}
 								</Nav.Link>
 							</Nav>
-							<Nav className="justify-content-end">
+							<Nav >
 								<Nav.Item>
 									<Button onClick={() => logout({ returnTo: window.location.origin })}>Kirjaudu ulos</Button>
 
@@ -38,8 +40,8 @@ const Navigation = (props) => {
 
 						
 						:
-							<Nav className="justify-content-end">
-								<Nav.Link inline><Button onClick={() => loginWithRedirect()}>Kirjaudu</Button></Nav.Link>
+							<Nav >
+								<Nav.Link  inline><Button onClick={() => loginWithRedirect()}>Kirjaudu</Button></Nav.Link>
 							</Nav>
 					}
 

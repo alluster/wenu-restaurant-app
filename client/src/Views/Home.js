@@ -1,10 +1,7 @@
 import React, {useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { Table, Jumbotron, Alert, Button } from 'react-bootstrap';
-import axios from 'axios';
-import Hero from '../Components/Hero'
-import Container from '../Components/Container'
-
+import Hero from '../Components/Hero';
+import RestaurantsList from '../Components/RestaurantsList';
 
 const AlertStyled = styled.div`
 	z-index: 10000;
@@ -38,7 +35,8 @@ const Home = () => {
 			<Hero />
 			<ImageContainer>
 				<Image src="/map.png" />
-			</ImageContainer>					
+			</ImageContainer>	
+			<RestaurantsList />				
 		</Content>
 		
   );

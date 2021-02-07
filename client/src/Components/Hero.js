@@ -37,7 +37,13 @@ const Text = styled.div`
 	}
 `
 const CustomRow = styled(Row) `
-margin-top: 40px;
+	margin-top: 80px;
+	padding-left: 15px;
+	@media (max-width: 768px) {
+		margin-top: 30px;
+
+	}
+
 `
 
 const H1 = styled.h1`
@@ -62,16 +68,21 @@ const Hero = () => {
 			
 			<Container>
 				<Text>
-						<H1>Ravintolasi ruokalista ja tilausten hallinta yhdessä paikassa.</H1>
-						<h3>Palvelumme avulla saat ravintolasi kotisivuille oman, helposti päivitettävän ruokalistan, jonka avulla asiakkaasi voivat tilata ruokaa kotiinkuljetuksella kotiin.</h3>
+						<H1>Tilaa ruokaa kuljetettuna suoraan ravintolalta ja säästä!</H1>
+						<h3>Palvelumme avulla ravintolat myyvät ruokaa kotiinkujetuksella - omilla ehdoillaan!</h3>
+
 						{
-							isAuthenticated ? "" :<Button size="lg" className='mt-4' variant="outline-primary" onClick={() => loginWithRedirect()}>Kirjaudu palveluun tästä</Button>
+							isAuthenticated ? "" :<div>
+								<Button size="lg" className='mt-4' variant="outline-primary" onClick={() => loginWithRedirect()}>Kirjaudu palveluun tästä</Button>
+								</div>
 						}
 						{
 							isAuthenticated ?
 								""
 								:
-								<Emailer />
+								<CustomRow>
+									<Emailer />
+								</CustomRow>
 						}
 					
 					

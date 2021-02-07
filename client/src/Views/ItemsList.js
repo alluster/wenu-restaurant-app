@@ -76,29 +76,34 @@ const ItemsList = () => {
 					{
 						items.map((item, i) => {
 							return(
-								<Col sm={4} >
+								<Col lg={4} >
 								
 									<Card key={i} >
 										<Card.Body>
 											<Card.Title>
-												Annoksen nimi: {item.name}
+												<Card.Subtitle className="mb-1 text-muted">Annoksen nimi:</Card.Subtitle> 
+												{item.name}
 											</Card.Title>
-											<Card.Subtitle className="mb-2 text-muted">Id: {item.id}</Card.Subtitle>
 											<Card.Text>
-												Kuvaus: {item.description}
+												<Card.Subtitle className="mb-1 text-muted">Kuvaus:</Card.Subtitle> 
+												{item.description}
 											</Card.Text>
 											<Card.Text>
-												Kategoria: {item.category}
+												<Card.Subtitle className="mb-1 text-muted">Kategoria:</Card.Subtitle> 
+												{item.category}
 											</Card.Text>
 											<Card.Text>
-												Hinta: {item.price}
+												<Card.Subtitle className="mb-1 text-muted">Hinta sis alv.:</Card.Subtitle> 
+												{item.price}
 											</Card.Text>
 											<Card.Text>
-												Allergeenit: {item.allergens}
+												<Card.Subtitle className="mb-1 text-muted">Allergeenit:</Card.Subtitle> 
+												{item.allergens}
 											</Card.Text>
 											<Card.Text>
-												Lihan alkuperämaa: {item.meat_origin}
-											</Card.Text>										
+												<Card.Subtitle className="mb-1 text-muted">Lihan alkuperämaa:</Card.Subtitle> 
+												{item.meat_origin}
+											</Card.Text>									
 
 					
 											<Button variant="warning" onClick={() => DeleteItem(item.id)}>Poista listalta</Button>

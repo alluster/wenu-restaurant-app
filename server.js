@@ -244,11 +244,40 @@ app.get('/api/deleteorder/:id', (req, res) => {
 
 
 
+app.get('/api/getrestaurant', (req, res) => {
+	pool.getConnection(function(err, connection) {
+
+		if (err) throw err; 
+		query = SQL`SELECT * FROM restaurants WHERE restaurant_id=${req.query.restaurantId}`
+		connection.query(
+			query,
+			function (error, results, fields) {
+				res.send(results)
+				connection.release();
+				if (error) throw error;
+			}
+		);
+	});
+})
 app.get('/api/getrestaurants', (req, res) => {
 	pool.getConnection(function(err, connection) {
 
 		if (err) throw err; 
-		query = SQL`SELECT * FROM restaurants`
+		query = SQL`SELECT * FROM restaurants `
+		connection.query(
+			query,
+			function (error, results, fields) {
+				res.send(results)
+				connection.release();
+				if (error) throw error;
+			}
+		);
+	});
+})
+app.get('/api/editrestaurant', (req, res) => {
+	pool.getConnection(function(err, connection) {
+		if (err) throw err; 
+		query = SQL`UPDATE restaurants SET name=${req.query.name}, image=${req.query.image}, description=${req.query.description}, email_address=${req.query.email}, street_address=${req.query.streetAddress}, postal_code=${req.query.postalCode}, city=${req.query.city} WHERE restaurant_id=${req.query.restaurantId}`
 		connection.query(
 			query,
 			function (error, results, fields) {

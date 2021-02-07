@@ -10,7 +10,7 @@ import Emailer from './Emailer';
 const Content = styled.div `
 	padding-top: 50px;
 	width: 100%;
-	height: 400px;
+	min-height: 400px;
 	bottom: 0;
 	margin-top: -400px;
 	background-color: #F4F4F2;
@@ -20,21 +20,9 @@ const Content = styled.div `
 	`;
 
 const CustomRow = styled(Row) `
-	margin-top: 50px;
+	// margin-top: 50px;
 `
 
-const BottomRow = styled.div`
-	min-height: 100%;
-	padding-top: 100px;
-	bottom: 0 !important;
-	justify-content: flex-end;
-	// margin-top: -100px;
-	height: 100px;
-	// position: absolute;
-	background-color: #F4F4F2;
-	width: 100%;
-	z-index: 1000000;
-`
 
 const Footer = () => {
 	const sendEmail = async (e) => {
@@ -58,8 +46,8 @@ const Footer = () => {
 	return (
 		<Content>
 			<Container>
-				<CustomRow>
-					<Col md={3}>
+				<CustomRow >
+					<Col className='mt-2' md={3}>
 						<img src="./logo-dark.svg" alt="logo" height="50px"/>
 					</Col>
 					<Col md={9}>
@@ -69,9 +57,8 @@ const Footer = () => {
 				</CustomRow>
 
 			</Container>
-			<BottomRow> 
 				<Container>
-					<Row>
+					<Row className='mt-5'>
 					<Col lg={3} >
 						<p>© Wenu 2020–2021</p>
 
@@ -84,7 +71,6 @@ const Footer = () => {
 					</Row>
 					
 				</Container>
-			</BottomRow>
 
 
 		</Content>

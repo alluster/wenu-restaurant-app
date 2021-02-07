@@ -9,7 +9,7 @@ ReactDOM.render(
 	<Auth0Provider
 		domain="wenu.eu.auth0.com"
 		clientId="czPgh7GkLoEIq4Bh3yDk7nuxhrrL1mZ7"
-		redirectUri={window.location.origin}
+		redirectUri={`${window.location.origin}/transportlist`}
 		audience="https://wenu.eu.auth0.com/api/v2/"
 
 	>

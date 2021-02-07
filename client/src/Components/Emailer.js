@@ -8,8 +8,12 @@ import { useAuth0 } from "@auth0/auth0-react";
 
 
 const CustomRow = styled(Row) `
-	margin-top: 50px;
-	padding-left: -30px;
+	// margin-top: 50px;
+	padding-left: -15px;
+	@media (max-width: 768px) {
+		margin-top: 80px;
+
+	}
 `
 
 const Emailer = () => {
@@ -41,12 +45,12 @@ const Emailer = () => {
 							isAuthenticated ? 
 								<h3>Ota yhteys tukeen</h3>
 								:
-								<h3>Ota Wenu käyttöön ravintolassasi!</h3>
+								<h3>Ota yhteyttä niin kerromme lisää!</h3>
 						}
 									
 										</Col>
 					<Col md={10}>
-						<Form.Group className='mt-4' controlId="formBasicEmail">
+						<Form.Group className='mt-2' controlId="formBasicEmail">
 							<Form.Control 
 								size="lg"
 								type="email" 
@@ -58,7 +62,7 @@ const Emailer = () => {
 						</Form.Group>
 					</Col>
 					<Col md={2}>
-						<Button  className='mt-4' size="lg" variant="primary" type="submit" onClick={(e) => sendEmail(e)}>Lähetä</Button>
+						<Button  className='mt-2' size="lg" variant="primary" type="submit" onClick={(e) => sendEmail(e)}>Lähetä</Button>
 					</Col>
 				</CustomRow>
 			
