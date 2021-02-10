@@ -10,6 +10,7 @@ const bodyParser = require('body-parser')
 const path = require('path')
 var nodemailer = require('nodemailer');
 const fileUpload = require('express-fileupload');
+const resizeImg = require('resize-img');
 
 app.use(sslRedirect());
 app.use(fileUpload());
@@ -38,21 +39,23 @@ var transporter = nodemailer.createTransport({
 	}
   });
 
-  app.get('/api/sendemail', (req, res) => {
+app.get('/api/sendemail', (req, res) => {
 	var mailOptions = {
 		from: process.env.REACT_APP_EMAIL,
 		to: process.env.REACT_APP_EMAIL,
 		subject: 'Haluaisin tietää lisää Wenu palvelustanne',
 		text: `${req.query.email}`
 	  };
-  transporter.sendMail(mailOptions, function(error, info){
-	if (error) {
-	  console.log(error);
-	} else {
-	  console.log('Email sent: ' + info.response);
+  	transporter.sendMail(mailOptions, function(error, info){
+		if (error) {
+		console.log(error);
+		} else {
+		console.log('Email sent: ' + info.response);
+		res.send(res)
 	}
-  });
-  })
+		})
+	});
+  
 // var twilio = require('twilio');
 // var client = new twilio(accountSid, authToken);
 
@@ -66,17 +69,42 @@ app.post('/api/upload', (req, res) => {
 	if(req.files === null) {
 		return res.status(400).json({msg: "No file uploaded"})
 	}
-	const file = req.files.file;
+	const file = req.files.file
+	 
 	file.mv(`${__dirname}/client/public/uploads/${file.name}`, err => {
 		if(err) {
 			console.error(err);
 			return res.status(500).send(err);
 		}
 		res.json({ fileName: file.name, filePath: `/uploads/${file.name}`})
+		pool.getConnection(function(err, connection) {
+			if (err) throw err; 
+			query = SQL`UPDATE restaurants SET image=${file.data} WHERE restaurant_id=${req.headers.restaurantid}`
+			connection.query(
+				query,
+				function (error, results, fields) {
+				connection.release();
+				if (error) throw error;
+			});
+		});
 		})
 	})
 
-
+	app.get('/api/getrestaurantimages', (req, res) => {
+		pool.getConnection(function(err, connection) {
+	
+			if (err) throw err; 
+			query = SQL`SELECT * FROM restaurant_images WHERE restaurant_id=${req.query.restaurantId}`
+			connection.query(
+				query,
+				function (error, results, fields) {
+					res.send(new Buffer.from(results[0].image).toString("base64"))
+					connection.release();
+					if (error) throw error;
+				}
+			);
+		});
+	})
 app.get('/api/additem', (req, res) => {
 	pool.getConnection(function(err, connection) {
 		if (err) throw err; 

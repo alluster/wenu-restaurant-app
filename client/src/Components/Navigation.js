@@ -41,7 +41,7 @@ const Navigation = (props) => {
 						
 						:
 							<Nav >
-								<Nav.Link  inline><Button onClick={() => loginWithRedirect()}>Kirjaudu</Button></Nav.Link>
+								<Nav.Link ><Button onClick={() => loginWithRedirect()}>Kirjaudu</Button></Nav.Link>
 							</Nav>
 					}
 

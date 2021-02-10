@@ -49,7 +49,14 @@ const RestaurantsList = () => {
 							restaurants.map((item, i) => {
 								return(
 
-									<Banner className="mt-3" key={i} header={item.name} subheader={`${item.street_address}, ${item.postal_code}, ${item.city}`} content={item.description}>
+									<Banner className="mt-3" 
+										key={i} 
+										heading={item.name} 
+										subheading={`${item.street_address}, 
+										${item.postal_code}, ${item.city}`} 
+										content={item.description}
+										image={item.image}
+									>
 											<Button href={`https://ruokalista-app.herokuapp.com/${item.restaurant_id}`} >Tutustu ruokalistaamme ja tilaa</Button> 
 									</Banner>
 									

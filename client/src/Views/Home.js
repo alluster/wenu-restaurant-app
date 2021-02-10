@@ -34,7 +34,13 @@ const Home = () => {
 		<Content>
 			<Hero />
 			
-			<Banner header="Mikä on Wenu ja kuinka se toimii?" subheader="Wenu on uusi tapa ostaa ruokaa kuljetettuna. Wenussa ravintolat määrittelevät itse annostensa hinnat ja hoitavat kuljetuksen itse. Aina ilman välikäsiä." content="Wenu mahdollistaa ravintoloiden itsenäisen myynnin ja markkinoinnin. Ravintolat saavat tuotot kotiinkuljetuksesta itselleen ja voivat määritellä hinnaston itselleen sopivaksi. Rakennetaan yhdessä kestävä ruokailuelämys."/>
+			<Banner 
+				heading="Mikä on Wenu ja kuinka se toimii?" 
+				subheading="Wenu on uusi tapa ostaa ruokaa kuljetettuna. Wenussa ravintolat määrittelevät itse annostensa hinnat ja hoitavat kuljetuksen itse. Aina ilman välikäsiä." 
+				content="Wenu mahdollistaa ravintoloiden itsenäisen myynnin ja markkinoinnin. Ravintolat saavat tuotot kotiinkuljetuksesta itselleen ja voivat määritellä hinnaston itselleen sopivaksi. Rakennetaan yhdessä kestävä ruokailuelämys."
+				image="/eating.jpeg"
+			/>
+
 			<ImageContainer>
 				<Image src="/map.png" />
 			</ImageContainer>	

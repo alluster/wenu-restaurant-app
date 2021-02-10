@@ -40,12 +40,13 @@ const TextContainer = styled.div`
 
 const ImageContainer = styled.div`
 	flex: 1;
-	object-position: 50% 50%;
-	height: 700px;
+	background-position: center;
+	height: auto;
+	min-height: 300px;
 	background-repeat: no-repeat;
 	background-size: cover;
-	width: auto;
-	background-image: url(/eating.jpeg);
+	width: 100%;
+	background-image: ${props => `url(${props.image})`};
 
 	@media (max-width: 768px) {
 		height: 200px;
@@ -57,19 +58,26 @@ const ImageContainer = styled.div`
 
 
 const Banner = (props) => {
-
+	const buffer = props.image || []
+	const b64 = new Buffer.from(buffer).toString('base64')
+	const mimeType = "image/jpeg"
 	return (
-			<Card className={props.className}>
-				<TextContainer>
-					<h1>{props.header}</h1>
-					<h3 className='mt-3' >{props.subheader}</h3>
-					<p className='mt-3'>
+		<Card className={props.className}>
+			<TextContainer>
+				<h1>{props.heading}</h1>
+				<h3 className='mt-3' >{props.subheading}</h3>
+				<p className='mt-3'>
 					{props.content}
-					</p>
-					{props.children}
-				</TextContainer>
-				<ImageContainer />
-			</Card>
+				</p>
+				{props.children}
+			</TextContainer>
+			{
+				props.image ?
+				<ImageContainer image={`data:${mimeType};base64,${b64}`}/>
+				:
+				<p>loading image</p>
+			}
+		</Card>
 			
 				
   );

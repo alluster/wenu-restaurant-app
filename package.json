@@ -20,6 +20,7 @@
 		"nodemailer": "^6.4.17",
 		"react": "^17.0.1",
 		"react-dom": "^17.0.1",
+		"resize-img": "^2.0.0",
 		"sql-template-strings": "^2.2.2",
 		"styled-components": "^5.2.1",
 		"twilio": "^3.54.1"

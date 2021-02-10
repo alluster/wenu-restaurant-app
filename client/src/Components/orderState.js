@@ -56,7 +56,6 @@ const OrderState = (props) => {
 							id={props.orderId}							
 							label="Tilaus saapunut keittiöön"
 							custom
-							inLine
 							checked={checked}
 							onChange={() => {
 								setChecked(!checked)

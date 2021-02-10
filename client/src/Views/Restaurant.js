@@ -1,45 +1,27 @@
 import React, {useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { Table, Jumbotron, Alert, Form, Col, Button } from 'react-bootstrap';
+import { Form, Col, Button } from 'react-bootstrap';
 import axios from 'axios';
-import Hero from '../Components/Hero'
 import Container from '../Components/Container'
 import { useAuth0 } from "@auth0/auth0-react";
-
+import Banner from '../Components/Banner';
+import AddImage from '../Components/AddImage';
 
 const Content = styled.div`
 	height: calc(100% + 1000px);
 `
-const Image = styled.img `
-position: relative;
-
-	max-width: 100%;
-	min-height: 200px;
-	margin-top: -100px;
-	margin-bottom: 50px;
-	// transform: translate(0%, 30%);
-	z-index: 1000;
-
-`;
-const ImageContainer = styled(Container)`
-margin-top: 50px;
-width: 100%;
-`
-
 const Restaurant = () => {
 	const { user } = useAuth0();
 	const [loading, setIsLoading] = useState(false);
 	const [restaurant, setRestaurant] = useState([]);
 	const [name, setName] = useState("");
-	const [email, setEmail] = useState();
-	const [streetAddress, setStreetAddress] = useState();
-	const [postalCode, setPostalCode] = useState();
-	const [city, setCity] = useState();
-	const [description, setDescription] = useState();
+	const [email, setEmail] = useState("");
+	const [streetAddress, setStreetAddress] = useState("");
+	const [postalCode, setPostalCode] = useState("");
+	const [city, setCity] = useState("");
+	const [description, setDescription] = useState("");
+	const [image, setImage] = useState("")
 
-	const [file, setFile] = useState();
-	const [fileName, setFileName] = useState()
-	const [uploadedFile, setUploadedFile] = useState({})
 
 	const GetRestaurant = async () => {
 		setIsLoading(true)
@@ -52,13 +34,13 @@ const Restaurant = () => {
 			let data = response.data[0]
 			setRestaurant(data)
 			setIsLoading(false)
-			console.log(restaurant)
 			setName(data.name)
 			setStreetAddress(data.street_address)
 			setEmail(data.email_address)
 			setPostalCode(data.postal_code)
 			setDescription(data.description)
 			setCity(data.city)
+			setImage(data.image)
 
 		})
 		.catch(function (error) {
@@ -67,7 +49,9 @@ const Restaurant = () => {
 		.finally(function () {
 			setIsLoading(false)
 		});
+
 	}
+
 	const editRestaurant = async (e) => {
 		setIsLoading(true)
 		e.preventDefault();
@@ -79,10 +63,10 @@ const Restaurant = () => {
 					postalCode: postalCode, 
 					city: city,
 					email: email,
-					restaurantId: user.sub				}	
+					restaurantId: user.sub,
+				}	
 			})
-		
-		.then(alert("Ravintolan tiedot tallennettu"), GetRestaurant(), setIsLoading(false))
+		.then(alert("Ravintolan tiedot tallennettu"), setIsLoading(false))
 		 
 		.catch(function (error) {
 			console.log(error);
@@ -91,48 +75,25 @@ const Restaurant = () => {
 		})
 		.finally(function () {
 			setIsLoading(false)
+			GetRestaurant()
 		});
 	}
-
-	const onFileChange = e => {
-		setFile(e.target.files[0])
-		setFileName(e.target.files[0].name)
-	}
-	const onFileSubmit = async e => {
-		e.preventDefault();
-		const formData = new FormData();
-		formData.append('file', file);
-		try {
-			const res = await axios.post('/api/upload', formData, {
-				headers: {
-					'Content-type':'multipart/form-data'
-				}
-			});
-			const { fileName, filePath } = res.data;
-			setUploadedFile({ fileName, filePath })
-		} catch(err) {
-			if(err.response.status === 500) {
-				console.log("There was a problem with the server")
-
-			}else {
-				console.log(err.response.data.msg)
-			}
-
-		}
-	}
+	
 	useEffect(() => {
 		GetRestaurant()
 	}, [])
 	return (
 		<Content>
 			<Container>
-				<h3>Ravintolan tiedot</h3>
-				<p>Voit tehdä muutoksia tietoihin. Muista tallentaa.</p>
+		
+					<h3>Ravintolan tiedot</h3>
+					<p>Voit tehdä muutoksia tietoihin. Muista tallentaa.</p>
 				{
 					loading ? <h1>Loading..</h1>
 					:
+					<div>
+
 				<Form>
-			
 					<Form.Row>
 						<Form.Group as={Col} >
 							<Form.Label>Email</Form.Label>
@@ -165,37 +126,37 @@ const Restaurant = () => {
 							<Form.Label>Kaupunki</Form.Label>
 							<Form.Control placeholder="Kaupunki" value={city} onChange={(e) => setCity(e.target.value)}/>
 						</Form.Group>
-						<Form.Group>
-							<Form.File onChange={onFileChange} id="exampleFormControlFile1" label="Example file input" />
-						</Form.Group>
-						<Button variant="primary"  onClick={onFileSubmit}>
-						Tallenna kuva
-					</Button>
+			
 					</Form.Row>
-					
-
 				
-
 					<Button variant="primary" type="submit" onClick={(e) => editRestaurant(e)}>
 						Tallenna tiedot
 					</Button>
 					</Form>
-					
-				}
-				
-				{
-						uploadedFile ? 
-						<div>{
-console.log(uploadedFile.filePath)}
-						<img src={`.${uploadedFile.filePath}`} alt="image" />
-
-						</div>
 						
-						 :
-						 ""
-					}
-				</Container>
-					
+				{
+					!loading ? 
+					<div>
+						<h3 className="mt-3">Tältä ravintolanne kortti näyttää etusivulla</h3>
+						<Banner 
+							className="mt-3"
+							content={description}
+							image={image}
+							heading={name}
+							subheading={streetAddress}
+						/>	
+					</div>
+				
+					:
+					<h1>Loading...</h1>
+				}
+					<AddImage 
+						id={user.sub}
+					/>
+						
+					</div>
+				}	
+				</Container>	
 		</Content>
 		
   );
